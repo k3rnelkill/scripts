@@ -7,7 +7,7 @@ SERVER="${SERVER/\.datatop\.com\.br/}"
 DIR=/whm2/backup_automatizado/ 
 # Diretório de Destino, local onde os backup serão armazenados.
 NAS=/data/$SERVER/ 
-# Gravado Logs de erros
+# Gravando Logs de erros
 LOG_ERROR=/var/log/bkp_error.log
 # Gravando Logs
 LOG=/var/log/bkp_nas.log
@@ -17,7 +17,7 @@ DIA=`date +%Y-%m-%d`;
 DIAHORA=`date "+%d-%m-%Y %H:%M:%S"`;
 
 #Contas que não serão backpeadas
-EXCETO=("superews2com");
+EXCETO=("usuarios-sem-backup");
 
 echo "\n### "$DIAHORA" inicializando Backup" >> $LOG
 
