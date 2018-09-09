@@ -17,7 +17,7 @@ DIAHORA=`date "+%d-%m-%Y %H:%M:%S"`;
 echo "Montando particao do NAS" >> $LOG
 mount -t nfs 10.10.0.16:/SUPERBIZ_NFS_VOL1/QTREE_SUPERBIZ_NFS_VOL1 $PARTICAO
 
-echo "\n### "$DIAHORA" inicializando Backup" >> $LOG
+echo "### "$DIAHORA" inicializando Backup ###" >> $LOG
 
 #Sincronizando dados-backups
 
@@ -25,7 +25,7 @@ rsync -azh /var/site $NAS
 
 #Atualiza Data/Hora
 DIAHORA=`date "+%d-%m-%Y %H:%M:%S"`;
-echo "\n### "$DIAHORA" finalizando Backup" >> $LOG
+echo "### "$DIAHORA" finalizando Backup ###" >> $LOG
 
 #Desmontando NAS
 umount /data
