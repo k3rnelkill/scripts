@@ -2,7 +2,7 @@
 #
 # Coletando o hostname da maquina, backup serão enviados para um pasta com o mesmo nome!
 SERVER=`hostname` 
-SERVER="${SERVER/\.datatop\.com\.br/}"
+SERVER="${SERVER/\.dominio\.com\.br/}"
 # Diretório de Origem, local onde será gravado temporariamente o Backup.
 DIR=/whm2/backup_automatizado/ 
 # Diretório de Destino, local onde os backup serão armazenados.
