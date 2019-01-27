@@ -19,10 +19,10 @@ senha="7W8Ktx0Hpppq"
 comando=`for I in $(mysql -u $usuario -p$senha -e 'show databases' -s --skip-column-names | egrep -v  'information_schema|performance_schema|mysql'); do mysqldump --routines -u $usuario -p"$senha" $I > $DIR$I"_"$DATA".sql"; done`
 
 #Faz Reparação de tabelas corrompidas.
-reparar=`mysqlcheck -A --auto-repair -u root -p$senha`
+reparar="mysqlcheck -A --auto-repair -u root -p$senha"
 
 #Inicia serviço
-reinicia=service mysql restart
+reinicia="service mysql restart"
 
 #Apagando Backups antigos da pasta
 #arquivos=`find $DIR* -type f -mtime 30 -exec rm -fv '{}' \;`
