@@ -3,7 +3,7 @@
 SERVER=`hostname`
 DIR="/root/bancobkp/"
 LOG=/var/log/bkp_mysql.log
-DATA=`date +%Y-%m-%d-%H-%M-%S`;
+DATA=`date +%Y-%m-%d_%H-%M-%S`;
 DATAHORA=`date "+%d-%m-%Y %H:%M:%S"`;
 
 
