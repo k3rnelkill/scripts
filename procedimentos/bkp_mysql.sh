@@ -2,15 +2,14 @@
 
 SERVER=`hostname`
 DIR="/root/bancobkp/"
-LOG_ERROR=/var/log/bkp_error.log
 LOG=/var/log/bkp_mysql.log
 DATA=`date +%Y-%m-%d-%H-%M-%S`;
 DATAHORA=`date "+%d-%m-%Y %H:%M:%S"`;
 
 
 #ALTERAR DADOS DE ACESSO AO BANCO
-usuario="root"
-senha="7W8Ktx0Hpppq"
+usuario="XXXX"
+senha="XXXXXXXXXX"
 
 #BKP DB MYSQL
 #Está sendo ignorando algumas bases do sistema com sed
