@@ -20,13 +20,12 @@
 #  USO: ./relatorio.sh								#
 #################################################################################
 
+clear
 
 HOSTNAME="`hostname`"
 DATA="`date`"
 KERNEL="`uname -r`"
 CPU="/proc/cpuinfo"
-
-clear
 
 echo -e "\n================================================================================"
 echo -e "\nRelatório da Máquina: $HOSTNAME"
