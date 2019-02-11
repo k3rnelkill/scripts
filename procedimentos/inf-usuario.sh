@@ -3,6 +3,9 @@
 #################################################################################
 # DESCRIÇÂO                                                                     #
 # Recebe o nome do usuário e pesquisa informações sobre este.                   #
+#										#
+# Autor: Thiago Marques (thiagomarquesdums@gmail.com)                           #
+# Data: 10/02/2019								#
 #                                                                               #
 # • Nome da Máquina								#      
 # • UID do usuário								#
@@ -10,19 +13,31 @@
 # • Total em Uso no /home do usuário						#
 # • Informações do último login do usuário					#
 # • [Opcional] Validar se o usuário existe ou não.				#
+# USO: ./inf-usuario.sh								#
 #################################################################################
+
+clear
+echo ""
 
 USUARIO=""
 HOMEUSER=""
 
-read -p "Informe o nome do usuário: " USUARIO
-HOMEUSER="$(grep "$USUARIO" /etc/passwd | awk -F: {'print $6'})"
-HOMEDISK="$(grep "$USUARIO" /etc/passwd | awk -F: {'print $6'} | du -sh)"
-echo -e "\n============================================================"
-echo -e "\nRelatório do usuário: $USUARIO"
-echo -e "\nUID: $(grep "$USUARIO" /etc/passwd | awk -F: {'print $3'})"
-echo -e "Nome ou Descrição: $(grep "$USUARIO" /etc/passwd | awk -F: {'print $5'} | sed 's/,//g')"
-echo -e "\nTotal Usado no $HOMEUSER: $HOMEDISK" 
-echo -e "\nUltimo Login:"
-echo -e "$(lastlog -u "$USUARIO")"
-echo -e "\n============================================================"
+read -p "Informe o nome do usuário: " USUARIO 
+
+#Efetuando a validação do usuário
+if id -u "$USUARIO" > /dev/null 2>&1; then 
+	#echo -e "\nUtilizador $USUARIO existe";
+
+	HOMEUSER="$(grep "$USUARIO" /etc/passwd | awk -F: {'print $6'})"
+	HOMEDISK="$(du -sh "$HOMEUSER")"
+	echo -e "\n============================================================"
+	echo -e "\nRelatório do usuário: $USUARIO"
+	echo -e "\nUID: $(grep "$USUARIO" /etc/passwd | awk -F: {'print $3'})"
+	echo -e "Nome ou Descrição: $(grep "$USUARIO" /etc/passwd | awk -F: {'print $5'} | sed 's/,//g')"
+	echo -e "\nTotal utilizando: $HOMEDISK"
+	echo -e "\nUltimo Login:"
+	echo -e "$(lastlog -u "$USUARIO")"
+	echo -e "\n============================================================"
+else 
+	echo "O utilizado $USUARIO não existe" 
+fi
