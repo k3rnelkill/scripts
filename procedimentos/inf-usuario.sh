@@ -12,8 +12,8 @@
 # • Nome Completo / Descrição do Usuário					#
 # • Total em Uso no /home do usuário						#
 # • Informações do último login do usuário					#
-# • [Opcional] Validar se o usuário existe ou não.				#
-# USO: ./inf-usuario.sh								#
+# • Valida se o usuário existe ou não.						#
+# • USO: ./inf-usuario.sh							#
 #################################################################################
 
 clear
@@ -29,12 +29,12 @@ if id -u "$USUARIO" > /dev/null 2>&1; then
 	#echo -e "\nUtilizador $USUARIO existe";
 
 	HOMEUSER="$(grep "$USUARIO" /etc/passwd | awk -F: {'print $6'})"
-	HOMEDISK="$(du -sh "$HOMEUSER")"
+	HOMEDISK="$(du -sh "$HOMEUSER" | cut -f1)"
 	echo -e "\n============================================================"
 	echo -e "\nRelatório do usuário: $USUARIO"
 	echo -e "\nUID: $(grep "$USUARIO" /etc/passwd | awk -F: {'print $3'})"
 	echo -e "Nome ou Descrição: $(grep "$USUARIO" /etc/passwd | awk -F: {'print $5'} | sed 's/,//g')"
-	echo -e "\nTotal utilizando: $HOMEDISK"
+	echo -e "\nTotal utilizando no $HOMEUSER: $HOMEDISK"
 	echo -e "\nUltimo Login:"
 	echo -e "$(lastlog -u "$USUARIO")"
 	echo -e "\n============================================================"
