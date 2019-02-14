@@ -18,20 +18,18 @@ USUARIO=""
 read -p "Informe o usuário: " USUARIO
 
 COLETAHOME="$(grep "$USUARIO" /etc/passwd | awk -F: {'print $6'})"
-ARMZBKP="$COLETAHOME/Backup/"
-DIAS7="$(find $ARMZBKP -ctime -7 -name backup_home\*tar.gz)"
+DIRDEST="$COLETAHOME/Backup/"
+DIAS7="$(find $DIRDEST -ctime -7 -name backup_home\*tar.gz)"
 ARQUIVO="backup_home_$(date +%Y%m%d%H%M).tar.gz"
 
-#echo $USUARIO
-#echo $COLETAHOME
-#echo $ARMZBKP
-
 #Criando o diretório de backup, caso não exista
-if [ !-d $ARMBKP ]
+if [ ! -d $DIRDEST ]
 then
-		echo "Criando diretório $ARMZBKP..."
-		mkdir -p $ARMZBKP
+		echo "Criando diretório $DIRDEST..."
+		mkdir -p $DIRDEST
 fi
+
+#DIAS7="$(find $DIRDEST -ctime -7 -name backup_home\*tar.gz)"
 
 #Faz o teste
 if [ "$DIAS7" ]
@@ -57,9 +55,8 @@ fi
 
 echo "Criando Backup ..."
 
-tar zcvpf $ARMZBKP/$ARQUIVO --absolute-names --exlude="$ARMZBKP" "$COLETAHOME"/*
-
+tar zcvpf $DIRDEST/$ARQUIVO --absolute-names --exclude="$DIRDEST" "$COLETAHOME"/*
 echo
-echo "O backup de nome \""$ARQUIVO"\" foi criado em $ARMZBKP"
+echo "O backup de nome \""$ARQUIVO"\" foi criado em $DIRDEST"
 echo 
 echo "Backup Concluído!"
