@@ -22,8 +22,8 @@ DATAHORA=`date "+%d-%m-%Y %H:%M:%S"`;
 ARQUIVO="backup_$(date +%Y-%m-%d_%H-%M-%S).tar.gz"
 
 #ALTERAR DADOS DE ACESSO AO BANCO
-USUARIO="root"
-SENHA="dementador"
+USUARIO="XXXXX"
+SENHA="XXXXXXXXX"
 
 
 #FUNCAO QUE FARA O BKP DB MYSQL
