@@ -7,7 +7,7 @@
 # Autor: Thiago Marques (thiagomarquesdums@gmail.com)           #
 # Data: 10/01/19                                                #
 #                                                               #
-# Descrição: Faz um backup do banco do usuário informado        #
+# Descrição: Faz um backup de todos os bancos e compacta        #
 #                                                               #
 # USO: ./bkp-mysql.sh                                           #
 #                                                               #
@@ -27,18 +27,16 @@ SENHA="dementador"
 
 
 #FUNCAO QUE FARA O BKP DB MYSQL
-#comando=`for I in $(mysql -u $USUARIO -p$SENHA -e 'show databases' -s --skip-column-names | egrep -v  'information_schema|performance_schema|mysql'); do mysqldump --routines -u $usuario -p"$senha" $I > $DIR$I"_"$DATA".sql"; done`
-
-comando=`for I in $(mysql -u $USUARIO -p$SENHA -e 'show databases' -s --skip-column-names | egrep -v  'information_schema|performance_schema|mysql'); do mysqldump --routines -u$USUARIO -p$SENHA $I > $DIR$I"_"$DATA".sql"; done`
+COMANDO=`for I in $(mysql -u $USUARIO -p$SENHA -e 'show databases' -s --skip-column-names | egrep -v  'information_schema|performance_schema|mysql'); do mysqldump --routines -u$USUARIO -p$SENHA $I > $DIR$I"_"$DATA".sql"; done`
 
 #Faz Reparação de tabelas corrompidas.
-reparar="mysqlcheck -A --auto-repair -u $USUARIO -p$SENHA"
+REPARA="mysqlcheck -A --auto-repair -u $USUARIO -p$SENHA"
 
 #Inicia serviço
-reinicia="service mysql restart"
+REINICIA="service mysql restart"
 
 #Apagando Backups antigos da pasta
-#arquivos=`find $DIR* -type f -mtime 30 -exec rm -fv '{}' \;`
+REMOVE=`find $DIR* -type f -mtime 7 -exec rm -fv '{}' \;`
 
 #INICIO
 echo -e "\nIniciando Backup em $DATAHORA" >> $LOG;
@@ -51,18 +49,18 @@ then
 fi
 
 echo -e "\nReparando tabelas que possam estar corrompidas $DATAHORA" #>> $LOG
-$reparar
+$REPARA
 
 echo -e "\nReiniciando mysql $DATAHORA" #>> $LOG
-$reinicia
+$REINICIA
 
 echo -e "\nInciando dump das databases $DATAHORA" #>> $LOG
-$comando;
+$COMANDO;
 
-#$echo "Removendo backup com +dias" >> $LOG
-#$arquivos;
+echo "Removendo backup com +dias" >> $LOG
+$REMOVE
 
-#Compactando arquivos
+#Compactando arquivos e removendo os arquivos backpeados
 echo "Compactando Backup ..." #>> $LOG
 tar zcvpf $DIR/$ARQUIVO --absolute-names --exclude="*tar.gz" --remove-files "$DIR"*
 echo ""
