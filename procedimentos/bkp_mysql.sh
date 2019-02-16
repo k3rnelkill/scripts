@@ -1,24 +1,38 @@
 #!/bin/bash
 
+#################################################################
+#                                                               #
+# Nome: bkp-mysql.sh                                            #
+#                                                               #
+# Autor: Thiago Marques (thiagomarquesdums@gmail.com)           #
+# Data: 10/01/19                                                #
+#                                                               #
+# Descrição: Faz um backup do banco do usuário informado        #
+#                                                               #
+# USO: ./bkp-mysql.sh                                           #
+#                                                               #
+#################################################################
+
+
 SERVER=`hostname`
 DIR="/root/bancobkp/"
-LOG=/var/log/bkp_mysql.log
+LOG="/var/log/bkp_mysql.log"
 DATA=`date +%Y-%m-%d_%H-%M-%S`;
 DATAHORA=`date "+%d-%m-%Y %H:%M:%S"`;
-
+ARQUIVO="backup_$(date +%Y-%m-%d_%H-%M-%S).tar.gz"
 
 #ALTERAR DADOS DE ACESSO AO BANCO
-usuario="XXXX"
-senha="XXXXXXXXXX"
+USUARIO="root"
+SENHA="dementador"
 
-#BKP DB MYSQL
-#Está sendo ignorando algumas bases do sistema com sed
-#comando=`for I in $(mysql -u $usuario -p$senha -e 'show databases' -s --skip-column-names | sed '/information_schema/ d' | sed '/performance_schema/ d' | sed '/mysql/ d'); do mysqldump -u $usuario -p"$senha" $I > $DIR$I"_"$DATA".sql"; done`
-#adicionando --routines para exportar procedures
-comando=`for I in $(mysql -u $usuario -p$senha -e 'show databases' -s --skip-column-names | egrep -v  'information_schema|performance_schema|mysql'); do mysqldump --routines -u $usuario -p"$senha" $I > $DIR$I"_"$DATA".sql"; done`
+
+#FUNCAO QUE FARA O BKP DB MYSQL
+#comando=`for I in $(mysql -u $USUARIO -p$SENHA -e 'show databases' -s --skip-column-names | egrep -v  'information_schema|performance_schema|mysql'); do mysqldump --routines -u $usuario -p"$senha" $I > $DIR$I"_"$DATA".sql"; done`
+
+comando=`for I in $(mysql -u $USUARIO -p$SENHA -e 'show databases' -s --skip-column-names | egrep -v  'information_schema|performance_schema|mysql'); do mysqldump --routines -u$USUARIO -p$SENHA $I > $DIR$I"_"$DATA".sql"; done`
 
 #Faz Reparação de tabelas corrompidas.
-reparar="mysqlcheck -A --auto-repair -u root -p$senha"
+reparar="mysqlcheck -A --auto-repair -u $USUARIO -p$SENHA"
 
 #Inicia serviço
 reinicia="service mysql restart"
@@ -32,18 +46,26 @@ echo -e "\nIniciando Backup em $DATAHORA" >> $LOG;
 #Verifica se diretorio existe, caso contrario cria-o.
 if [ ! -d $DIR ]
 then
-    mkdir $DIR;
-    echo "Diretorio criado com sucesso" >> $LOG;
+	    echo "Criando o diretório $DIR ..." #>> $LOG
+            mkdir -p $DIR
 fi
 
-echo -e "\nReparando tabelas que possam estar corrompidas $DATAHORA" >> $LOG
+echo -e "\nReparando tabelas que possam estar corrompidas $DATAHORA" #>> $LOG
 $reparar
 
-echo -e "\nReiniciando mysql $DATAHORA" >> $LOG
+echo -e "\nReiniciando mysql $DATAHORA" #>> $LOG
 $reinicia
 
-echo -e "\nInciando dump das databases $DATAHORA" >> $LOG
+echo -e "\nInciando dump das databases $DATAHORA" #>> $LOG
 $comando;
 
-echo "Removendo backup com +dias" >> $LOG
-$arquivos;
+#$echo "Removendo backup com +dias" >> $LOG
+#$arquivos;
+
+#Compactando arquivos
+echo "Compactando Backup ..." #>> $LOG
+tar zcvpf $DIR/$ARQUIVO --absolute-names --exclude="*tar.gz" --remove-files "$DIR"*
+echo ""
+echo -e "\nO backup de nome "$ARQUIVO" foi criado em $DIR" >> $LOG
+echo "" 
+echo -e "\nBackup Concluído!"
