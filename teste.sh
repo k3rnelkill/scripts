@@ -1,5 +1,5 @@
 #!/bin/bash
 
 echo $DOMINIO
-echo ""
+echo "-"
 echo $USUARIO
