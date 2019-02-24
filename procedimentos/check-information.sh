@@ -9,6 +9,7 @@
 #                                                               #
 # Descrição: Faz checagem de serviços da maquina, processo      #
 # uptimes e etc.						#
+# Script abaixo foi homolado para uso no CentOS 6.*		# 
 #                                                               #
 # USO: ./check-information.sh                                   #
 #                                                               #
@@ -27,18 +28,18 @@ vermelho="\033[0;31m"
 branco="\033[1;37m"
 amarelo="\033[1;33m"
 
-echo "$vermelho========================================================"
-echo "              Informações da Maquina                    "                  
-echo "========================================================$corPadrao"
+echo -e "$vermelho========================================================"
+echo -e "              Informações da Maquina                    "                  
+echo -e "========================================================"$corPadrao""
 
-echo -e "\nQuantidade de processos: $PROCESSOS"
-echo "UPTIME e LOAD: $UPTIME"
+echo -e ""$amarelo"\nQuantidade de processos:"$corPadrao" $PROCESSOS"
+echo -e ""$amarelo"UPTIME e LOAD:"$corPadrao" $UPTIME"
 
-echo -e "\n====================================================="
-echo    "           Informações sobre o APACHE                "
-echo    "====================================================="
+echo -e ""$vermelho"\n====================================================="
+echo -e  "           Informações sobre o APACHE                "
+echo -e "====================================================="$corPadrao""
 
-echo -e "\nUptime APACHE: $UPTIMEAPACHE"
-echo -e "\nVersão APACHE: $APACHEVERSION"
-echo -e "\nRequisições sendo processadas $APACHEPROC"
-echo -e "\nProcessos ociosos $PROCOCIOSO"
+echo -e ""$amarelo"\nUptime APACHE:"$corPadrao" $UPTIMEAPACHE"
+echo -e ""$amarelo"Versão APACHE:"$corPadrao" $APACHEVERSION"
+echo -e ""$amarelo"Requisições sendo processadas:"$corPadrao" $APACHEPROC"
+echo -e ""$amarelo"Processos ociosos:"$corPadrao" $PROCOCIOSO"
