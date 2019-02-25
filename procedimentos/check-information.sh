@@ -36,8 +36,8 @@ amarelo="\033[1;33m"
 
 clear
 echo -e "$vermelho=================================================================================="
-echo -e "              Informações de Hardware                    "                  
-echo -e "==============================================================================="$corPadrao""
+echo -e "                           Informações de Hardware"                  
+echo -e "=================================================================================="$corPadrao""
 
 echo -e ""$amarelo"Qtd de memória total:"$corPadrao" $MEMORIATOTAL"
 echo -e ""$amarelo"Qtd de CPU:"$corPadrao" $QTDCPU"
@@ -45,7 +45,7 @@ echo -e ""$amarelo"Modelo CPU:"$corPadrao"$MODELCPU"
 echo -e "\n"$amarelo"Partições:"
 echo -e ""$corPadrao"$DISCO"
 
-echo -e "\n$vermelho================================================================================="
+echo -e "\n$vermelho================================================================================"
 echo -e "                             Informações de uso"
 echo -e "================================================================================"$corPadrao""
 
@@ -53,7 +53,7 @@ echo -e ""$amarelo"Qtd de memória livre:"$corPadrao" $MEMORIALIVRE"
 echo -e ""$amarelo"Quantidade de processos:"$corPadrao" $PROCESSOS"
 echo -e ""$amarelo"UPTIME e LOAD:"$corPadrao" $UPTIME"
 
-echo -e ""$vermelho"\n==============================================================================="
+echo -e ""$vermelho"\n================================================================================"
 echo -e "                           Informações sobre o APACHE                "
 echo -e "================================================================================"$corPadrao""
 
