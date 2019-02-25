@@ -18,7 +18,8 @@
 PROCESSOS=$((`ps aux | wc -l` - 1))
 UPTIME=`uptime`
 APACHEVERSION=`httpd -v | grep "Server version"`
-UPTIMEAPACHE=`service httpd fullstatus | grep "Server uptime"`
+#UPTIMEAPACHE=`service httpd fullstatus | grep "Server uptime"`
+APACHEINFO=`service httpd fullstatus | head -n20`
 APACHEPROC=`service httpd fullstatus | grep "currently"`
 PROCOCIOSO=`service httpd fullstatus | grep "idle workers"`
 MEMORIATOTAL=`free -h | grep "Mem" | awk {'print $2'}`
@@ -56,7 +57,8 @@ echo -e ""$vermelho"\n====================================================="
 echo -e  "           Informações sobre o APACHE                "
 echo -e "====================================================="$corPadrao""
 
-echo -e ""$amarelo"Uptime APACHE:"$corPadrao"$UPTIMEAPACHE"
-echo -e ""$amarelo"Versão APACHE:"$corPadrao"$APACHEVERSION"
-echo -e ""$amarelo"Requisições sendo processadas:"$corPadrao" $APACHEPROC"
-echo -e ""$amarelo"Processos ociosos:"$corPadrao" $PROCOCIOSO"
+echo -e "\n"$amarelo"APACHE INFO: "corPadrao" $APACHEINFO"
+#echo -e ""$amarelo"Uptime APACHE:"$corPadrao"$UPTIMEAPACHE"
+#echo -e ""$amarelo"Versão APACHE:"$corPadrao"$APACHEVERSION"
+#echo -e ""$amarelo"Requisições sendo processadas:"$corPadrao" $APACHEPROC"
+#echo -e ""$amarelo"Processos ociosos:"$corPadrao" $PROCOCIOSO"
