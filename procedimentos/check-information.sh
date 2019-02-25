@@ -18,8 +18,9 @@
 PROCESSOS=$((`ps aux | wc -l` - 1))
 UPTIME=`uptime`
 APACHEVERSION=`httpd -v | grep "Server version"`
-#UPTIMEAPACHE=`service httpd fullstatus | grep "Server uptime"`
-APACHEINFO=`service httpd fullstatus | head -n20`
+UPTIMEAPACHE=`service httpd fullstatus | grep "Server uptime"`
+APACHEINFO=`service httpd fullstatus | head -n3`
+MPM=`service httpd fullstatus | "Server MPM:"`
 APACHEPROC=`service httpd fullstatus | grep "currently"`
 MEMORIATOTAL=`free -h | grep "Mem" | awk {'print $2'}`
 MEMORIALIVRE=`free -h | grep "Mem" | awk {'print $4'}`
@@ -58,4 +59,6 @@ echo -e "                           Informações sobre o APACHE                
 echo -e "================================================================================"$corPadrao""
 
 echo -e ""$amarelo"$APACHEINFO"$corPadrao""
+echo -e ""$amarelo"$MPM"$corPadrao""
+echo -e ""$amarelo"$UPTIMEAPACHE"$corPadrao""
 echo -e ""$amarelo"Requisições sendo processadas:"$corPadrao"$APACHEPROC"
