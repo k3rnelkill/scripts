@@ -57,7 +57,7 @@ echo -e ""$vermelho"\n====================================================="
 echo -e  "           Informações sobre o APACHE                "
 echo -e "====================================================="$corPadrao""
 
-echo -e "\n"$amarelo"APACHE INFO: "corPadrao" $APACHEINFO"
+echo -e "\n"$amarelo"APACHE INFO: "$corPadrao" $APACHEINFO"
 #echo -e ""$amarelo"Uptime APACHE:"$corPadrao"$UPTIMEAPACHE"
 #echo -e ""$amarelo"Versão APACHE:"$corPadrao"$APACHEVERSION"
 #echo -e ""$amarelo"Requisições sendo processadas:"$corPadrao" $APACHEPROC"
