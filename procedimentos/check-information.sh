@@ -58,4 +58,4 @@ echo -e "                           Informações sobre o APACHE                
 echo -e "================================================================================"$corPadrao""
 
 echo -e ""$amarelo"$APACHEINFO"$corPadrao""
-echo -e ""$amarelo"Requisições sendo processadas:"$corPadrao" $APACHEPROC"
+echo -e ""$amarelo"Requisições sendo processadas:"$corPadrao"$APACHEPROC"
