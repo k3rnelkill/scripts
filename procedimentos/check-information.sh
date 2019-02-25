@@ -21,18 +21,35 @@ APACHEVERSION=`httpd -v | grep "Server version"`
 UPTIMEAPACHE=`service httpd fullstatus | grep "Server uptime"`
 APACHEPROC=`service httpd fullstatus | grep "currently"`
 PROCOCIOSO=`service httpd fullstatus | grep "idle workers"`
+MEMORIATOTAL=`free -h | grep "Mem" | awk {'print $2'}`
+MEMORIALIVRE=`free -h | grep "Mem" | awk {'print $4'}`
+QTDCPU=`cat /proc/cpuinfo | grep "processor" | wc -l`
+MODELCPU=`cat /proc/cpuinfo | grep "model name" | tail -n1 | awk -F: {'print $2'}`
+DISCO=`df -kh | egrep -v '(tmpfs|udev|none)'`
+
 
 #DEFININDO CORES
 corPadrao="\033[0m"
-vermelho="\033[0;31m"
+vermelho="\033[1;31m"
 branco="\033[1;37m"
 amarelo="\033[1;33m"
 
 echo -e "$vermelho========================================================"
-echo -e "              Informações da Maquina                    "                  
+echo -e "              Informações de Hardware                    "                  
 echo -e "========================================================"$corPadrao""
 
-echo -e ""$amarelo"\nQuantidade de processos:"$corPadrao" $PROCESSOS"
+echo -e ""$amarelo"Qtd de memória total:"$corPadrao" $MEMORIATOTAL"
+echo -e ""$amarelo"Qtd de CPU:"$corPadrao" $QTDCPU"
+echo -e ""$amarelo"Modelo CPU:"$corPadrao"$MODELCPU"
+echo -e "\n"$amarelo"Partições:"
+echo -e ""$corPadrao"$DISCO"
+
+echo -e "\n$vermelho========================================================"
+echo -e "              Informações de uso                    "
+echo -e "========================================================"$corPadrao""
+
+echo -e ""$amarelo"Qtd de memória livre:"$corPadrao" $MEMORIALIVRE"
+echo -e ""$amarelo"Quantidade de processos:"$corPadrao" $PROCESSOS"
 echo -e ""$amarelo"UPTIME e LOAD:"$corPadrao" $UPTIME"
 
 echo -e ""$vermelho"\n====================================================="
