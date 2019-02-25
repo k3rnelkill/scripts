@@ -34,6 +34,7 @@ vermelho="\033[1;31m"
 branco="\033[1;37m"
 amarelo="\033[1;33m"
 
+clear
 echo -e "$vermelho========================================================"
 echo -e "              Informações de Hardware                    "                  
 echo -e "========================================================"$corPadrao""
