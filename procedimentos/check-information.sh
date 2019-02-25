@@ -21,7 +21,6 @@ APACHEVERSION=`httpd -v | grep "Server version"`
 #UPTIMEAPACHE=`service httpd fullstatus | grep "Server uptime"`
 APACHEINFO=`service httpd fullstatus | head -n20`
 APACHEPROC=`service httpd fullstatus | grep "currently"`
-PROCOCIOSO=`service httpd fullstatus | grep "idle workers"`
 MEMORIATOTAL=`free -h | grep "Mem" | awk {'print $2'}`
 MEMORIALIVRE=`free -h | grep "Mem" | awk {'print $4'}`
 QTDCPU=`cat /proc/cpuinfo | grep "processor" | wc -l`
@@ -61,4 +60,3 @@ echo -e ""$amarelo"$APACHEINFO"$corPadrao""
 #echo -e ""$amarelo"Uptime APACHE:"$corPadrao"$UPTIMEAPACHE"
 #echo -e ""$amarelo"Versão APACHE:"$corPadrao"$APACHEVERSION"
 echo -e ""$amarelo"Requisições sendo processadas:"$corPadrao" $APACHEPROC"
-echo -e ""$amarelo"Processos ociosos:"$corPadrao" $PROCOCIOSO"
