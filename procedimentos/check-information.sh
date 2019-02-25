@@ -25,7 +25,7 @@ MEMORIATOTAL=`free -h | grep "Mem" | awk {'print $2'}`
 MEMORIALIVRE=`free -h | grep "Mem" | awk {'print $4'}`
 QTDCPU=`cat /proc/cpuinfo | grep "processor" | wc -l`
 MODELCPU=`cat /proc/cpuinfo | grep "model name" | tail -n1 | awk -F: {'print $2'}`
-DISCO=`df -kh | egrep -v '(tmpfs|udev|none)'`
+DISCO=`df -kh | egrep -v '(tmpfs|udev|none|var|usr|tmp)'`
 
 
 #DEFININDO CORES
