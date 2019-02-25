@@ -54,10 +54,10 @@ echo -e ""$amarelo"Quantidade de processos:"$corPadrao" $PROCESSOS"
 echo -e ""$amarelo"UPTIME e LOAD:"$corPadrao" $UPTIME"
 
 echo -e ""$vermelho"\n====================================================="
-echo -e  "           Informações sobre o APACHE                "
+echo -e "           Informações sobre o APACHE                "
 echo -e "====================================================="$corPadrao""
 
-#echo -e "\n"$amarelo"$APACHEINFO"$corPadrao""
+echo -e ""$amarelo"$APACHEINFO"
 #echo -e ""$amarelo"Uptime APACHE:"$corPadrao"$UPTIMEAPACHE"
 #echo -e ""$amarelo"Versão APACHE:"$corPadrao"$APACHEVERSION"
 #echo -e ""$amarelo"Requisições sendo processadas:"$corPadrao" $APACHEPROC"
