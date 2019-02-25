@@ -24,6 +24,10 @@ MPM=`service httpd fullstatus | grep "Server MPM:"`
 APACHEPROC=`service httpd fullstatus | grep "currently"`
 MEMORIATOTAL=`free -h | grep "Mem" | awk {'print $2'}`
 MEMORIALIVRE=`free -h | grep "Mem" | awk {'print $4'}`
+MYSQLUPTIME=`mysql -e "\s" | grep "Uptime:"`
+MYSQLSERVER=`mysql -e "\s" | grep "Server:"`
+MYSQLV=`mysql -e "\s" | grep "Server version:"`
+MYSQLUPTIME=`mysql -e "\s" | grep "Uptime:"` 
 QTDCPU=`cat /proc/cpuinfo | grep "processor" | wc -l`
 MODELCPU=`cat /proc/cpuinfo | grep "model name" | tail -n1 | awk -F: {'print $2'}`
 DISCO=`df -kh | egrep -v '(tmpfs|udev|none|var|usr|home|boot)'`
@@ -55,10 +59,18 @@ echo -e ""$amarelo"Quantidade de processos:"$corPadrao" $PROCESSOS"
 echo -e ""$amarelo"UPTIME e LOAD:"$corPadrao" $UPTIME"
 
 echo -e ""$vermelho"\n================================================================================"
-echo -e "                           Informações sobre o APACHE                "
+echo -e "                           Informações sobre o APACHE"
 echo -e "================================================================================"$corPadrao""
 
 echo -e ""$amarelo"$APACHEINFO"$corPadrao""
 echo -e ""$amarelo"$MPM"$corPadrao""
 echo -e ""$amarelo"$UPTIMEAPACHE"$corPadrao""
 echo -e ""$amarelo"Requisições sendo processadas:"$corPadrao"$APACHEPROC"
+
+echo -e ""$vermelho"\n================================================================================"
+echo -e "                           Informações sobre o MYSQL"
+echo -e "================================================================================"$corPadrao""
+
+echo -e ""$amarelo"$MYSQLSERVER"$corPadrao""
+echo -e ""$amarelo"$MYSQLV"$corPadrao""
+echo -e ""$amarelo"$MYSQLUPTIME"$corPadrao""
