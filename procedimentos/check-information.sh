@@ -19,7 +19,7 @@ PROCESSOS=$((`ps aux | wc -l` - 1))
 UPTIME=`uptime`
 APACHEVERSION=`httpd -v | grep "Server version"`
 UPTIMEAPACHE=`service httpd fullstatus | grep "Server uptime"`
-APACHEINFO=`service httpd fullstatus | head -n3`
+APACHEINFO=`service httpd fullstatus | head -n3 | egrep -v '(old|prioriry)'`
 MPM=`service httpd fullstatus | grep "Server MPM:"`
 APACHEPROC=`service httpd fullstatus | grep "currently"`
 MEMORIATOTAL=`free -h | grep "Mem" | awk {'print $2'}`
@@ -30,7 +30,7 @@ MYSQLV=`mysql -e "\s" | grep "Server version:"`
 MYSQLUPTIME=`mysql -e "\s" | grep "Uptime:"` 
 QTDCPU=`cat /proc/cpuinfo | grep "processor" | wc -l`
 MODELCPU=`cat /proc/cpuinfo | grep "model name" | tail -n1 | awk -F: {'print $2'}`
-DISCO=`df -kh | egrep -v '(tmpfs|udev|none|var|usr|home|boot)'`
+DISCO=`df -kh | egrep -v '(tmpfs|udev|none|var|usr|boot)'`
 
 
 #DEFININDO CORES
