@@ -24,7 +24,8 @@ MYSQLUPTIME=`mysql -e "\s" | grep "Uptime:"`
 MYSQLSERVER=`mysql -e "\s" | grep "Server:"`
 MYSQLV=`mysql -e "\s" | grep "Server version:"`
 MYSQLUPTIME=`mysql -e "\s" | grep "Uptime:"` 
-QTDCPU=`cat /proc/cpuinfo | grep "processor" | wc -l`
+#QTDCPU=`cat /proc/cpuinfo | grep "processor" | wc -l`
+QTDCPU=`nproc`
 MODELCPU=`cat /proc/cpuinfo | grep "model name" | tail -n1 | awk -F: {'print $2'}`
 DISCO=`df -kh | egrep -v '(tmpfs|udev|none|var|usr|boot)'`
 
