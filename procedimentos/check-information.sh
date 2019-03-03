@@ -15,13 +15,9 @@
 #                                                               #
 #################################################################
 
+VERSAO=$(grep -Eo '[0-9]' /etc/centos-release | head -n1)
 PROCESSOS=$((`ps aux | wc -l` - 1))
 UPTIME=`uptime`
-APACHEVERSION=`httpd -v | grep "Server version"`
-UPTIMEAPACHE=`service httpd fullstatus | grep "Server uptime"`
-APACHEINFO=`service httpd fullstatus | head -n3`
-MPM=`service httpd fullstatus | grep "Server MPM:"`
-APACHEPROC=`service httpd fullstatus | grep "currently"`
 MEMORIATOTAL=`free -h | grep "Mem" | awk {'print $2'}`
 MEMORIALIVRE=`free -h | grep "Mem" | awk {'print $4'}`
 MYSQLUPTIME=`mysql -e "\s" | grep "Uptime:"`
@@ -38,6 +34,22 @@ corPadrao="\033[0m"
 vermelho="\033[1;31m"
 branco="\033[1;37m"
 amarelo="\033[1;33m"
+
+#VERIFICA VERSAO SO
+if [ $VERSAO -eq 6 ]
+then
+        echo "CentOS 6"
+	APACHEINFO=`service httpd fullstatus | head -n3`
+	MPM=`service httpd fullstatus | grep "Server MPM:"`
+	UPTIMEAPACHE=`service httpd fullstatus | grep "Server uptime"`
+	APACHEPROC=`service httpd fullstatus | grep "currently"`
+else
+        echo "CentOS 7"
+	APACHEINFO=`apachectl fullstatus | head -n3`
+	MPM=`apachectl fullstatus | grep "Server MPM:"`
+	UPTIMEAPACHE=`apachectl fullstatus | grep "Server uptime"`
+	APACHEPROC=`apachectl fullstatus | grep "currently"`
+fi
 
 clear
 echo -e "$vermelho=================================================================================="
