@@ -26,7 +26,7 @@ MYSQLV=`mysql -e "\s" | grep "Server version:"`
 MYSQLUPTIME=`mysql -e "\s" | grep "Uptime:"` 
 QTDCPU=`cat /proc/cpuinfo | grep "processor" | wc -l`
 MODELCPU=`cat /proc/cpuinfo | grep "model name" | tail -n1 | awk -F: {'print $2'}`
-DISCO=`df -kh | egrep -v '(tmpfs|udev|none|var|usr|home|boot)'`
+DISCO=`df -kh | egrep -v '(tmpfs|udev|none|var|usr|boot)'`
 
 
 #DEFININDO CORES
