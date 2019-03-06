@@ -15,7 +15,7 @@ DIAHORA=`date "+%d-%m-%Y %H:%M:%S"`;
 
 #montando Disco NAS
 echo "Montando particao do NAS" >> $LOG
-mount -t nfs 10.10.0.16:/SUPERBIZ_NFS_VOL1/QTREE_SUPERBIZ_NFS_VOL1 $PARTICAO
+mount -t nfs 0.0.0.16:/SUPERBIZ_NFS_VOL1/QTREE_SUPERBIZ_NFS_VOL1 $PARTICAO
 
 echo "### "$DIAHORA" inicializando Backup ###" >> $LOG
 
