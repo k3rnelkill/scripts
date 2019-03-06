@@ -6,7 +6,7 @@ IDTKT=""
 DESTINO=""
 
 read -p "Informe o domínio: " DOMINIO
-echo $DOMINIO > dominio.tmp
+echo $DOMINIO > /tmp/dominio.tmp
 
 #Validando existencia do domínio
 if [ ! $(grep -w "$DOMINIO" /etc/trueuserdomains | awk {'print $1'}) ]
@@ -16,7 +16,7 @@ then
 fi
 
 read -p "Informe o destino: " DESTINO
-echo $DESTINO > destino.tmp
+echo $DESTINO > /tmp/destino.tmp
 
 #Checando se o destino está online
 if ! $(ping -c2 "$DESTINO" > /dev/null) 
@@ -28,28 +28,30 @@ fi
 #Coletando usuário
  echo -e "\nColetando usuário."
  USUARIO="$(grep "$DOMINIO" /etc/trueuserdomains | sed 's/ //g' | awk -F: {'print $2'})"
- echo $USUARIO > usuario.tmp
+ echo $USUARIO > /tmp/usuario.tmp
 
 
 #Verifica se precisa criar um ticket ou não.
 echo ""
 echo "Deseja cria um ticket?"
-echo "1 = SIM"
-echo "2 = NÂO"
-echo "Q = SAIR"
+echo ""
+echo "1 - SIM"
+echo "2 - NÂO"
+echo "Q - SAIR"
 echo ""
 read -p "Opção: " OPCAOTKT
 echo ""
 
-case $OPCAOTKT= in
+case "$OPCAOTKT" in
 	1)
 		echo -e "\nCriando TICKET ..."
-        	IDTKT=`source <(curl -ks https://git.hostgator.com.br/advanced-support/migration/raw/master/open.sh) --domain $DOMINIO --destination $DESTINO`
-		echo $IDTKT > idtkt.tmp
+        	#IDTKT=`source <(curl -ks https://git.hostgator.com.br/advanced-support/migration/raw/master/open.sh) --domain $DOMINIO --destination $DESTINO`
+		IDTKT=26666
+		echo $IDTKT > /tmp/idtkt.tmp
 		;;
 	2)
 	        read -p "\nInforme o TICKET ..." IDTKT
-		echo $IDTKT > idtkt.tmp
+		echo $IDTKT > /tmp/idtkt.tmp
 		;;
 	
 	[Qq])
@@ -58,30 +60,29 @@ case $OPCAOTKT= in
 		;;
 	*)	
 		echo "Opção Inválida!"
-		exit 1
+		exit 2
 		;;
 esac	
 
 
-#Verificando tipo de conta
-
+#VERIFICANDO TIPO DE CONTA
 echo ""
 echo "Escolhe a Opção referente ao tipo de conta."
-echo "1 = Usuário"
-echo "2 = Revenda"
-echo "Q = SAIR"
+echo "1 - Usuário"
+echo "2 - Revenda"
+echo "Q - SAIR"
 echo ""
 read -p "Opção: " OPCAO
 echo ""
 
-case $OPCAO in
+case "$TIPOCONTA" in
 	1)
 		TIPO="USER"
-		echo $TIPO > tipo.tmp
+		echo $TIPOCONTA > tipo.tmp
 		;;
 	2)
 		TIPO="RESELLER"
-		echo $TIPO > tipo.tmp
+		echo $TIPOCONTA > tipo.tmp
 		;;
 	[Qq])
 		echo "Saindo ..."
@@ -89,14 +90,14 @@ case $OPCAO in
 		;;
 	*)
 		echo "Opção inválida!"
-		exit 1
+		exit 2
 		;;
 esac
 
 
 echo "Domínio = $DOMINIO"
 echo "Usuário = $USUARIO"
-echo "Tipo = $TIPO"
+echo "Tipo = $TIPOCONTA"
 echo "Destino = $DESTINO"
 echo "ID do Ticket = $IDTKT"
 
@@ -104,8 +105,8 @@ echo "ID do Ticket = $IDTKT"
 #	MIGRA=`source <(curl -ks https://git.hostgator.com.br/monitoramento/migracao/raw/master/migracao.sh) --idtkt "$IDTKT" --destination "$DESTINO" --port "22" --type "$TIPO" --accounts "$USUARIO" --email "thiago.dantas@endurance.com" --skip-dns`
 
 #	echo -e "\nIniciando a migração!"
-#@	$MIGRA
+#	$MIGRA
 #
 #fi
 
-#echo -e "\nFinalizado as $(date)"
+echo -e "\nFinalizado as $(date)"
