@@ -39,7 +39,7 @@ for i in `cat /etc/trueuserowners | cut -d: -f1 | sort -n`; do
     status=FALSE;
 
 #Ignorando usuario excessão
-    for x in ${EXCETO[@]}; do
+for x in ${EXCETO[@]}; do
 	if [ $nome == $x ]; then
 	    status=TRUE;
 	    echo "!!! Ignorando Backup de $nome" >> $LOG;
