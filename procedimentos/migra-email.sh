@@ -9,12 +9,12 @@
 # Data: 03/03/19                                                #
 #                                                               #
 # Descrição: Faz a leitura do csv dos dados das contas e sincron#
-# iza elas através do imapsync					                #
-#								                                #
-# Homologado:						                            #
+# iza elas através do imapsync					#
+#								#
+# Homologado:						        #
 #                                                               #
 # USO: ./migra-email.sh                                         #
-#                                                               #cat
+#                                                               #
 #################################################################
 
 DATAHORA=`date "+%d-%m-%Y %H:%M:%S"`
