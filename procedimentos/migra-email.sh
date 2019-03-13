@@ -25,7 +25,7 @@ LOG="/var/log/migra-email.log"
 #read -p "Informe o host de origem: " SRVORIGEM
 #read -p "Informe o host de destino:" SRVDESTINO
 
-for LINHA in $(cat /root/contas.csv)  
+for LINHA in $(cat contas.csv)  
 do	
 	SRVORIGEM=`echo $LINHA | awk -F, '{print $1}' | tr -d "[:space:]"`
 	SRVDESTINO=`echo $LINHA | awk -F, '{print $4}' | tr -d "[:space:]"`
