@@ -22,16 +22,16 @@
 DATAHORA=`date "+%d-%m-%Y %H:%M:%S"`
 LOG="/var/log/migra-email.log"
 
-read -p "Informe o host de origem: " SRVORIGEM
-read -p "Informe o host de destino:" SRVDESTINO
+#read -p "Informe o host de origem: " SRVORIGEM
+#read -p "Informe o host de destino:" SRVDESTINO
 
 for LINHA in $(cat /root/contas.csv)  
 do	
-	#SRVORIGEM=`echo $LINHA | awk -F, '{print $1}' | tr -d "[:space:]"`
-	#SRVDESTINO=`echo $LINHA | awk -F, '{print $4}' | tr -d "[:space:]"`
-	CONTA=`echo $LINHA | awk -F, '{print $1}' | tr -d "[:space:]"`
-	SENHA1=`echo $LINHA | awk -F, '{print $2}'| tr -d "[:space:]"`
-	SENHA2=`echo $LINHA | awk -F, '{print $3}' | tr -d "[:space:]"`
+	SRVORIGEM=`echo $LINHA | awk -F, '{print $1}' | tr -d "[:space:]"`
+	SRVDESTINO=`echo $LINHA | awk -F, '{print $4}' | tr -d "[:space:]"`
+	CONTA=`echo $LINHA | awk -F, '{print $2}' | tr -d "[:space:]"`
+	SENHA1=`echo $LINHA | awk -F, '{print $3}'| tr -d "[:space:]"`
+	SENHA2=`echo $LINHA | awk -F, '{print $5}' | tr -d "[:space:]"`
 
 
 	#echo $SRVORIGEM
@@ -47,7 +47,7 @@ do
 
 	echo -e "\nIniciando a sincronia da conta $CONTA as $DATAHORA"
 
-	imapsync --host1 "$SRVORIGEM" --user1 "$CONTA"  --password1 "$SENHA1" --host2 "$SRVDESTINO" --user2 "$CONTA" --password2 "$SENHA2"
+	imapsync --host1 "$SRVORIGEM" --user1 "$CONTA"  --password1 $SENHA1 --host2 "$SRVDESTINO" --user2 "$CONTA" --password2 $SENHA2
 
 	echo -e "\nFinalizando a sincronia da conta $CONTA as $DATAHORA"
 done
