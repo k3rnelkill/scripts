@@ -3,20 +3,19 @@
 
 #################################################################################################################################
 #                                                                                                                               #
-# Nome: migra-email.sh			                                                                                                #
+# Nome: migra-email.sh		                                                                                                #
 #                                                                                                                               #
 # Autor: Thiago Marques (thiagomarquesdums@gmail.com)                                                                           #
 # Data: 03/03/19                                                                                                                #
 #                                                                                                                               #
-# Descrição: Faz a leitura do csv dos dados das contas e sincroniza elas através do imapsync					                #
-#								                                                                                                #
-# Planilha deve conta na 1ª colune e-mail, 2ª senha e 3ª sena de destino														#
-# Homologado:						                                                                                            #
+# Descrição: Faz a leitura do csv dos dados das contas e sincroniza elas através do imapsync			                #
+#								                                                                #
+# Planilha deve conta na 1ª servidor de origem, 2ª Email, 3ª senha origem, 4 Servidor de destino, 5ª senha destino		#
+# Homologado:				                                                                                        #
 #                                                                                                                               #
-# BUG -> Inicialmente efetuando a leitura do host pela planilha apresenta erros, por esse motivo estou lendo pelo read ate o fix#  
 #                                                                                                                               #
 # USO: ./migra-email.sh                                                                                                         #
-#                                                                                                                               #
+# Arquivo csv deve ficar onde irá rodar o script                                                                                #
 #################################################################################################################################
 
 DATAHORA=`date "+%d-%m-%Y %H:%M:%S"`
@@ -53,3 +52,4 @@ do
 done
 
 echo -e "\nSincronia de e-mail finalizada as $DATAHORA"
+echo -e "\nLogs do processo estão armazenado na pasta LOG_imapsync"
