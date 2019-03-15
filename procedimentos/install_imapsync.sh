@@ -1,20 +1,20 @@
 #!/bin/bash
 
-#################################################################################
-#										#
-# Nome: install_imapsync.sh							#
-# Autor: Thiago Marques (thiagomarquesdums@gmail.com)				#
-# Data: 15/03/2019								#
-#										#
-# Descrição: Faz a instalação do imapsync em diferentes sistemas operacionais	#
-# links, script essencial para utilizar o migra-email.sh			#
-#										#
-# Homolagado: Em Desenvolvimento						#
-#										#
-#										#
-# Uso: ./install_imapsync.sh ou bash <(curl -ks )				#
-#										#
-#################################################################################
+#################################################################################################################################################
+#																		#
+# Nome: install_imapsync.sh															#
+# Autor: Thiago Marques (thiagomarquesdums@gmail.com)												#
+# Data: 15/03/2019																#
+#																		#
+# Descrição: Faz a instalação do imapsync em diferentes sistemas operacionais									#
+# links, script essencial para utilizar o migra-email.sh											#
+#																		#
+# Homolagado: Em Desenvolvimento														#
+#																		#
+#																		#
+# Uso: ./install_imapsync.sh ou bash <(curl -ks https://raw.githubusercontent.com/marquesms/scripts/master/procedimentos/install_imapsync.sh)	#
+#																		#
+#################################################################################################################################################
 
 #DEFININDO CORES
 corPadrao="\033[0m"
