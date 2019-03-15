@@ -21,8 +21,20 @@
 DATAHORA=`date "+%d-%m-%Y %H:%M:%S"`
 LOG="/var/log/migra-email.log"
 
+
 #read -p "Informe o host de origem: " SRVORIGEM
 #read -p "Informe o host de destino:" SRVDESTINO
+
+#Definindo cores
+corPadrao="\033[0m"
+vermelho="\033[0;31m"
+
+echo -e ""$vermelho"=================================================================================="
+echo -e "                      Atenção - Script de sincronia iniciando                      "                  
+echo -e "=================================================================================="$corPadrao""
+
+read -p "Informe seu e-mail de contato: " CONTATO
+
 
 for LINHA in $(cat contas.csv)  
 do	
@@ -44,12 +56,15 @@ do
 	#echo "$SENHA2"
 	#echo ${#SENHA2}
 
-	echo -e "\nIniciando a sincronia da conta $CONTA as $DATAHORA"
+
+	echo ""
+	echo -e ""$vermelho"Iniciando a sincronia da conta $CONTA as $DATAHORA"$corPadrao""
 
 	imapsync --host1 "$SRVORIGEM" --user1 "$CONTA"  --password1 $SENHA1 --host2 "$SRVDESTINO" --user2 "$CONTA" --password2 $SENHA2
 
-	echo -e "\nFinalizando a sincronia da conta $CONTA as $DATAHORA"
+	echo ""
+	echo -e ""$vermelho"Finalizando a sincronia da conta $CONTA as $DATAHORA"$corPadrao""
 done
 
-echo -e "\nSincronia de e-mail finalizada as $DATAHORA"
-echo -e "\nLogs do processo estão armazenado na pasta LOG_imapsync"
+echo -e "\n"$vermelho"Sincronia de e-mails finalizada as $DATAHORA"$corPadrao""
+echo -e "\n"$vermelho"Logs do processo estão armazenado na pasta LOG_imapsync"$corPadrao""
