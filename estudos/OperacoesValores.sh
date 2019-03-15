@@ -55,7 +55,7 @@ case $OPCAO in
 		echo ""
 		OPERACAO="/"
 		;;
-	Q)
+	[Qq])
 		echo "Saindo..."
 		exit
 		;;
