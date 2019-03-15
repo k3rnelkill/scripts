@@ -12,7 +12,7 @@
 #								                                                                #
 # Planilha deve conta na 1ª servidor de origem, 2ª Email, 3ª senha origem, 4 Servidor de destino, 5ª senha destino		#
 # Homologado:				                                                                                        #
-#                                                                                                                               #
+# Modelo: https://docs.google.com/spreadsheets/d/1bQdPS2Q-LOy0G-zvpHgABQ8rClYhUk40ZGOursIL5vg/edit?usp=sharing                  #
 #                                                                                                                               #
 # USO: ./migra-email.sh                                                                                                         #
 # Arquivo csv deve ficar onde irá rodar o script                                                                                #
@@ -33,7 +33,7 @@ echo -e ""$vermelho"============================================================
 echo -e "                      Atenção - Script de sincronia iniciando                      "                  
 echo -e "=================================================================================="$corPadrao""
 
-read -p "Informe seu e-mail de contato: " CONTATO
+#read -p "Informe seu e-mail de contato: " CONTATO
 
 
 for LINHA in $(cat contas.csv)  
