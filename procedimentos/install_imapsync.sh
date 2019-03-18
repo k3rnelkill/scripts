@@ -1,19 +1,19 @@
 #!/bin/bash
 
 #################################################################################################################################################
-#																		#
-# Nome: install_imapsync.sh															#
-# Autor: Thiago Marques (thiagomarquesdums@gmail.com)												#
-# Data: 15/03/2019																#
-#																		#
-# Descrição: Faz a instalação do imapsync em diferentes sistemas operacionais									#
-# links, script essencial para utilizar o migra-email.sh											#
-#																		#
-# Homolagado: Em Desenvolvimento														#
-#																		#
-#																		#
+#																																				#
+# Nome: install_imapsync.sh																														#
+# Autor: Thiago Marques (thiagomarquesdums@gmail.com)																							#
+# Data: 15/03/2019																																#
+#																																				#
+# Descrição: Faz a instalação do imapsync em diferentes sistemas operacionais																	#
+# links, script essencial para utilizar o migra-email.sh																						#
+#																																				#
+# Homolagado: Em Desenvolvimento																												#
+#																																				#
+#																																				#	
 # Uso: ./install_imapsync.sh ou bash <(curl -ks https://raw.githubusercontent.com/marquesms/scripts/master/procedimentos/install_imapsync.sh)	#
-#																		#
+#																																				#
 #################################################################################################################################################
 
 #DEFININDO CORES
@@ -41,16 +41,29 @@ echo ""
 
 case "$OPCAO" in
 	1)
-		echo -e "\nIniciando instalação no $OPCAO ..."
+		echo -e "\nIniciando instalação no UBUNTU ..."
+
+		DEPENDENCIAS="makepasswd rcs perl-doc libio-tee-perl git libmail-imapclient-perl libdigest-md5-file-perl libterm-readkey-perl libfile-copy-recursive-perl build-essential make automake libunicode-string-perl libauthen-ntlm-perl libcrypt-ssleay-perl libdigest-hmac-perl libfile-copy-recursive-perl libio-compress-perl libio-socket-inet6-perl libio-socket-ssl-perl libio-tee-perl libmodule-scandeps-perl libnet-ssleay-perl libpar-packer-perl libreadonly-perl libterm-readkey-perl libtest-pod-perl libtest-simple-perl libunicode-string-perl liburi-perl cpanminus"
+		MODULOS="cpanm JSON::WebToken Test::MockObject Unicode::String Data::Uniqid"
+		
+		echo -e "Dependencias: "$vermelho$DEPENDENCIAS$corPadrao""
+		sleep 3
+
+		apt-get install $DEPENDENCIAS -y
+
+		echo -e "Módulos: "$vermelho$MODULOS$corPadrao""
+		sleep 3
+
+		sudo $DEPENDENCIAS
 		;;
 	2)
-		echo -e "\nIniciando instalação no $OPCAO ..."
+		echo -e "\nIniciando instalação no DEBIAN ..."
 		;;
 	3)
-		echo -e "\nIniciando instalação no $OPCAO ..."
+		echo -e "\nIniciando instalação no CENTOS6 ..."
 		;;
 	4)
-		echo -e "\nIniciando instalação no $OPCAO ..."
+		echo -e "\nIniciando instalação no CENTOS7 ..."
 		;;
 	[Qq])
 		echo -e "Saindo ..."
