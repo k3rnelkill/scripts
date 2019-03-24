@@ -36,7 +36,7 @@ REPARA="mysqlcheck -A --auto-repair -u $USUARIO -p$SENHA"
 REINICIA="service mysql restart"
 
 #Lista arquivos que serão removidos
-LISTA=`find $DIR* -type f -mtime +302 -exec ls -lash '{}' \;`
+LISTA=`find $DIR* -type f -mtime +30 -exec ls -lash '{}' \;`
 #Apagando Backups antigos da pasta
 REMOVE=`find $DIR* -type f -mtime +30 -exec rm -fv '{}' \;`
 
