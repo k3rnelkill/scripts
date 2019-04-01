@@ -13,6 +13,8 @@
 #                                                               #
 #################################################################
 
+#exec 1>> $LOG
+exec 2>&1
 
 SERVER=`hostname`
 DIR="/root/bancobkp/"
@@ -35,33 +37,36 @@ REPARA="mysqlcheck -A --auto-repair -u $USUARIO -p$SENHA"
 #Inicia serviço
 REINICIA="service mysql restart"
 
+#Lista arquivos que serão removidos
+LISTA=`find $DIR* -type f -mtime +30 -exec ls -lash '{}' \;`
 #Apagando Backups antigos da pasta
-REMOVE=`find $DIR* -type f -mtime 7 -exec rm -fv '{}' \;`
+REMOVE=`find $DIR* -type f -mtime +30 -exec rm -fv '{}' \;`
 
 #INICIO
-echo -e "\nIniciando Backup em $DATAHORA" >> $LOG;
+echo -e "\nIniciando Backup em $DATAHORA" >> $LOG
 
 #Verifica se diretorio existe, caso contrario cria-o.
 if [ ! -d $DIR ]
 then
-	    echo "Criando o diretório $DIR ..." #>> $LOG
+	    echo "Criando o diretório $DIR ..." >> $LOG
             mkdir -p $DIR
 fi
 
-echo -e "\nReparando tabelas que possam estar corrompidas $DATAHORA" #>> $LOG
+echo -e "\nReparando tabelas que possam estar corrompidas $DATAHORA" >> $LOG
 $REPARA
 
-echo -e "\nReiniciando mysql $DATAHORA" #>> $LOG
+echo -e "\nReiniciando mysql $DATAHORA" >> $LOG
 $REINICIA
 
-echo -e "\nInciando dump das databases $DATAHORA" #>> $LOG
-$COMANDO;
+echo -e "\nInciando dump das databases $DATAHORA" >> $LOG
+$COMANDO
 
-echo "Removendo backup com +dias" >> $LOG
+echo -e "\nRemovendo backup com +dias" >> $LOG
+$LISTA >> $LOG
 $REMOVE
 
 #Compactando arquivos e removendo os arquivos backpeados
-echo "Compactando Backup ..." #>> $LOG
+echo -e "Compactando Backup ..." >> $LOG
 tar zcvpf $DIR/$ARQUIVO --absolute-names --exclude="*tar.gz" --remove-files "$DIR"*
 echo ""
 echo -e "\nO backup de nome "$ARQUIVO" foi criado em $DIR" >> $LOG
