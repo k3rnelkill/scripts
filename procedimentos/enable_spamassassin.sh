@@ -22,7 +22,14 @@ then
 
 	case "$OPCAO" in
 		1)	
-			
+			if [ ! -d $DIR ]
+        		then
+                		echo "Criando o diretório $DIR ..."
+                		mkdir -p $DIR
+                		echo "required_score 5" > $DIR"/user_prefs"
+			else
+				echo "required_score 5" > $DIR"/user_prefs"	
+			fi
 			;;
 		2) 
 			echo "Saindo ..."
@@ -40,7 +47,7 @@ else
 	then
            	echo "Criando o diretório $DIR ..."
             	mkdir -p $DIR
-           	touch $DIR"/user_prefs"
+           	#touch $DIR"/user_prefs"
 		touch $HOMEUSER"/.spamassassinenable"
            	echo "required_score 5" > $DIR"/user_prefs"
 	fi
@@ -48,7 +55,7 @@ else
 	if [ ! -f $DIR"/user_prefs" ]
 	then
 		echo "Criando arquivo user_prefs"
-		touch $DIR"/user_prefs"
+		#touch $DIR"/user_prefs"
 		echo "required_score 5" > $DIR"/user_prefs"
 	fi
 fi
