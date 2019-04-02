@@ -22,48 +22,48 @@ echo $HOMEUSER
 
 if [ -f $HOMEUSER"/.spamassassinenable" ]
 then
-        echo -e "Executando o IF"
-        echo -e "\nJá existe um Spam Filter ativo"
-        echo ""
-        echo -e "\nDeseja sobrescrever a configuração?"
-        echo ""
-        echo "1 - SIM"
-        echo "2 - NÂO"
-        echo ""
-        read -p "Opcao: " OPCAO
-        echo ""
+	echo -e "Executando o IF"
+	echo -e "\nJá existe um Spam Filter ativo"
+	echo ""
+	echo -e "\nDeseja sobrescrever a configuração?"
+	echo ""
+	echo "1 - SIM"
+	echo "2 - NÂO"
+	echo ""
+	read -p "Opcao: " OPCAO
+	echo ""
 
-        case "$OPCAO" in
-                1)          
-                        if [ ! -d $DIR ]
-                        then
-                                echo "Refazendo ativação padrão"
-                                sleep 1
-                                uapi --user="$USUARIO" Email disable_spam_assassin
-                                echo "Score Spam 5.0"
-                                sleep 1
-                                uapi --user="$USUARIO" Email enable_spam_assassin 
-                                uapi --user="$USUARIO" SpamAssassin update_user_preference preference=score value-0="ACT_NOW_CAPS 5.0"
-                        fi  
-                        ;;  
-                2)  
-                        echo "Saindo ..."
-                        exit
-                        ;;          
-                *)  
-                        echo "Opção selecionada invalida"
-                        exit 2
-                        ;;  
-        esac    
+	case "$OPCAO" in
+		1)          
+			if [ ! -d $DIR ]
+			then
+				echo "Refazendo ativação padrão"
+				sleep 1
+				uapi --user="$USUARIO" Email disable_spam_assassin
+				echo "Score Spam 5.0"
+				sleep 1
+				uapi --user="$USUARIO" Email enable_spam_assassin 
+				uapi --user="$USUARIO" SpamAssassin update_user_preference preference=score value-0="ACT_NOW_CAPS 5.0"
+			fi  
+			;;  
+		2)  
+			echo "Saindo ..."
+			exit
+			;;          
+		*)  
+			echo "Opção selecionada invalida"
+			exit 2
+			;;  
+	esac    
 
 else
-    
-        echo "Ativando SPAMASSASSIN do usuário $USUARIO ..."
-        sleep 1
-        uapi --user="$USUARIO" Email enable_spam_assassin
-        echo "Score Spam 5.0"
-        sleep 1
-        uapi --user="$USUARIO" SpamAssassin update_user_preference preference=score value-0="ACT_NOW_CAPS 5.0"
-    
+
+	echo "Ativando SPAMASSASSIN do usuário $USUARIO ..."
+	sleep 1
+	uapi --user="$USUARIO" Email enable_spam_assassin
+	echo "Score Spam 5.0"
+	sleep 1
+	uapi --user="$USUARIO" SpamAssassin update_user_preference preference=score value-0="ACT_NOW_CAPS 5.0"
+
 
 fi
