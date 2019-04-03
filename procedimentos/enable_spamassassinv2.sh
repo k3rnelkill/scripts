@@ -17,8 +17,10 @@
 USUARIO=`pwd | awk -F/ {'print $3'}`
 HOMEUSER=`grep "$USUARIO" /etc/passwd | awk -F: {'print $6'}`
 DIR="$HOMEUSER"/.spamassassin""
+DOMAIN=`cat /etc/trueuserdomains | grep "$USUARIO" | awk -F: {'print $1'}`
 
 echo $USUARIO
+echo $DOMINIO
 echo $HOMEUSER
 echo $DIR
 
@@ -41,8 +43,8 @@ then
 			#if [ ! -d $DIR ]
 			#then
 				echo "Refazendo ativação padrão"
-				#sleep 1
-				#uapi --user="$USUARIO" Email disable_spam_assassin
+				sleep 1
+				uapi --user="$USUARIO" Email disable_spam_assassin
 				echo "Score Spam 5.0"
 				sleep 1
 				uapi --user="$USUARIO" Email enable_spam_assassin 
@@ -62,12 +64,12 @@ then
 
 else
 
+	echo "Entrando no else"
 	echo "Ativando SPAMASSASSIN do usuário $USUARIO ..."
 	sleep 1
 	uapi --user="$USUARIO" Email enable_spam_assassin
 	echo "Score Spam 5.0"
 	sleep 1
 	uapi --user="$USUARIO" SpamAssassin update_user_preference preference=score value-0="ACT_NOW_CAPS 5.0"
-
 
 fi
