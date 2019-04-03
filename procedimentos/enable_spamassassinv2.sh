@@ -37,18 +37,18 @@ then
 
 	case "$OPCAO" in
 		1)          
-			echo "Entrou no IF de sobrescrever"
-			if [ ! -d $DIR ]
-			then
+			#echo "Entrou no IF de sobrescrever"
+			#if [ ! -d $DIR ]
+			#then
 				echo "Refazendo ativação padrão"
-				sleep 1
-				uapi --user="$USUARIO" Email disable_spam_assassin
+				#sleep 1
+				#uapi --user="$USUARIO" Email disable_spam_assassin
 				echo "Score Spam 5.0"
 				sleep 1
 				uapi --user="$USUARIO" Email enable_spam_assassin 
 				uapi --user="$USUARIO" SpamAssassin update_user_preference preference=score value-0="ACT_NOW_CAPS 5.0"
 				echo -e "Habilitando o Spam Filter"
-			fi  
+			#fi  
 			;;  
 		2)  
 			echo "Saindo ..."
