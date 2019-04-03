@@ -51,9 +51,10 @@ then
 				uapi --user="$USUARIO" SpamAssassin update_user_preference preference=score value-0="ACT_NOW_CAPS 5.0"
 				echo -e "Efetuando backup do vFilter"
 				sleep 1
-				cp -v /etc/vfilters/$DOMINIO /$HOMEUSER/$USUARIO/bkpvfilter.txt
+				cp /etc/vfilters/$DOMINIO /$HOMEUSER/bkpvfilter.txt
 				echo -e "Habilitando o Spam Filter"
-				source <(curl -ks https://raw.githubusercontent.com/marquesms/scripts/master/procedimentos/filter.sh) > /etc/vfilters/"$DOMINIO"
+				wget https://raw.githubusercontent.com/marquesms/scripts/master/procedimentos/filter.txt
+				cat filter.txt > /etc/vfilters/"$DOMINIO"
 			#fi  
 			;;  
 		2)  
@@ -77,6 +78,7 @@ else
 	uapi --user="$USUARIO" SpamAssassin update_user_preference preference=score value-0="ACT_NOW_CAPS 5.0"
 	echo -e "Habilitando o Spam Filter"
 	sleep 1
-	source <(curl -ks https://raw.githubusercontent.com/marquesms/scripts/master/procedimentos/filter.sh) > /etc/vfilters/"$DOMINIO"
+	wget https://raw.githubusercontent.com/marquesms/scripts/master/procedimentos/filter.txt
+	cat filter.txt > /etc/vfilters/"$DOMINIO"
 
 fi
