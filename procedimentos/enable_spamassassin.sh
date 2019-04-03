@@ -2,7 +2,7 @@
 
 USUARIO=`pwd | awk -F/ {'print $3'}`
 HOMEUSER=`grep "$USUARIO" /etc/passwd | awk -F: {'print $6'}`
-DIR="$HOMEUSER"/.spamassassin""
+DIRSPAM="$HOMEUSER"/.spamassassin""
 
 echo $USUARIO
 echo $HOMEUSER
@@ -22,13 +22,13 @@ then
 
 	case "$OPCAO" in
 		1)	
-			if [ ! -d $DIR ]
+			if [ ! -d $DIRSPAM ]
         		then
-                		echo "Criando o diretório $DIR ..."
-                		mkdir -p $DIR
-                		echo "required_score 5" > $DIR"/user_prefs"
+                		echo "Criando o diretório $DIRSPAM ..."
+                		mkdir -p $DIRSPAM
+                		echo "required_score 5" > $DIRSPAM"/user_prefs"
 			else
-				echo "required_score 5" > $DIR"/user_prefs"	
+				echo "required_score 5" > $DIRSPAM"/user_prefs"	
 			fi
 			;;
 		2) 
@@ -43,19 +43,17 @@ then
 
 else
 	echo -e "Executando o ELSE\n"
-	if [ ! -d $DIR ]
+	if [ ! -d $DIRSPAM ]
 	then
-           	echo "Criando o diretório $DIR ..."
-            	mkdir -p $DIR
-           	#touch $DIR"/user_prefs"
+           	echo "Criando o diretório $DIRSPAM ..."
+            	mkdir -p $DIRSPAM
 		touch $HOMEUSER"/.spamassassinenable"
-           	echo "required_score 5" > $DIR"/user_prefs"
+           	echo "required_score 5" > $DIRSPAM"/user_prefs"
 	fi
 
-	if [ ! -f $DIR"/user_prefs" ]
+	if [ ! -f $DIRSPAM"/user_prefs" ]
 	then
 		echo "Criando arquivo user_prefs"
-		#touch $DIR"/user_prefs"
-		echo "required_score 5" > $DIR"/user_prefs"
+		echo "required_score 5" > $DIRSPAM"/user_prefs"
 	fi
 fi
