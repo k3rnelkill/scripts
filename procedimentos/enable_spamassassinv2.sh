@@ -17,7 +17,7 @@
 USUARIO=`pwd | awk -F/ {'print $3'}`
 HOMEUSER=`grep "$USUARIO" /etc/passwd | awk -F: {'print $6'}`
 DIR="$HOMEUSER"/.spamassassin""
-DOMAIN=`cat /etc/trueuserdomains | grep "$USUARIO" | awk -F: {'print $1'}`
+DOMINIO=`cat /etc/trueuserdomains | grep "$USUARIO" | awk -F: {'print $1'}`
 
 echo $USUARIO
 echo $DOMINIO
