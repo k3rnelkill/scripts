@@ -49,10 +49,10 @@ then
 				uapi --user="$USUARIO" Email enable_spam_assassin 
 				uapi --user="$USUARIO" SpamAssassin update_user_preference preference=score value-0="ACT_NOW_CAPS 5.0"
 				echo -e "Efetuando backup do vFilter"
-				for DOMINIOS in $(/bin/cat /etc/trueuserdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cp -pv /etc/vfilters/"$DOMINIOS" "$HOMEUSER"/"$DATA"_vfilter_"$DOMINIOS"; done
+				for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cp -pv /etc/vfilters/"$DOMINIOS" "$HOMEUSER"/"$DATA"_vfilter_"$DOMINIOS"; done
 				sleep 1
 				echo -e "Habilitando o Spam Filter"
-				for DOMINIOS in $(/bin/cat /etc/trueuserdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cat filter.txt > /etc/vfilters/"$DOMINIOS"; done
+				for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cat filter.txt > /etc/vfilters/"$DOMINIOS"; done
 				/bin/cat "$HOMEUSER"/filter.cache.txt > "$HOMEUSER"/.cpanel/filter.cache
 			;;  
 		2)  
@@ -75,10 +75,10 @@ else
 	sleep 1
 	uapi --user="$USUARIO" SpamAssassin update_user_preference preference=score value-0="ACT_NOW_CAPS 5.0"
 	echo -e "Efetuando backup do vFilter"
-	for DOMINIOS in $(/bin/cat /etc/trueuserdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cp -pv /etc/vfilters/"$DOMINIOS" "$HOMEUSER"/"$DATA"_vfilter_"$DOMINIOS"; done
+	for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cp -pv /etc/vfilters/"$DOMINIOS" "$HOMEUSER"/"$DATA"_vfilter_"$DOMINIOS"; done
 	sleep 1
 	echo -e "Habilitando o Spam Filter"
-	for DOMINIOS in $(/bin/cat /etc/trueuserdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cat filter.txt > /etc/vfilters/"$DOMINIOS"; done
+	for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cat filter.txt > /etc/vfilters/"$DOMINIOS"; done
 	/bin/cat "$HOMEUSER"/filter.cache.txt > "$HOMEUSER"/.cpanel/filter.cache
 	sleep 1
 	
