@@ -48,6 +48,9 @@ then
 				sleep 1
 				uapi --user="$USUARIO" Email enable_spam_assassin 
 				uapi --user="$USUARIO" SpamAssassin update_user_preference preference=score value-0="ACT_NOW_CAPS 5.0"
+				echo -e "Habilitando auto Delete"
+				sleep 1
+				cpapi1 --user="$USUARIO" Email enable_spam_autodelete
 				echo -e "Efetuando backup do vFilter"
 				for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cp -pv /etc/vfilters/"$DOMINIOS" "$HOMEUSER"/"$DATA"_vfilter_"$DOMINIOS"; done
 				sleep 1
@@ -74,6 +77,9 @@ else
 	echo "Score Spam 5.0"
 	sleep 1
 	uapi --user="$USUARIO" SpamAssassin update_user_preference preference=score value-0="ACT_NOW_CAPS 5.0"
+	echo -e "Habilitando auto Delete"
+	sleep 1
+	cpapi1 --user="$USUARIO" Email enable_spam_autodelete
 	echo -e "Efetuando backup do vFilter"
 	for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cp -pv /etc/vfilters/"$DOMINIOS" "$HOMEUSER"/"$DATA"_vfilter_"$DOMINIOS"; done
 	sleep 1
