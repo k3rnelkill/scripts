@@ -19,6 +19,7 @@ HOMEUSER=`grep "$USUARIO" /etc/passwd | awk -F: {'print $6'}`
 DIR="$HOMEUSER"/.spamassassin""
 DATA=`date +%Y%m%d"_"%H%M`
 FILTRO=`wget https://raw.githubusercontent.com/marquesms/scripts/master/procedimentos/filter.txt -O "$HOMEUSER/filter.txt"`
+FILTRO2=`wget https://raw.githubusercontent.com/marquesms/scripts/master/procedimentos/filter2.txt -O "$HOMEUSER/filter.txt"`
 CACHEFILTRO=`wget https://raw.githubusercontent.com/marquesms/scripts/master/procedimentos/filter.cache.txt -O "$HOMEUSER/filter.cache.txt"`
 
 echo $USUARIO
@@ -63,7 +64,7 @@ then
 			/bin/cat "$HOMEUSER"/filter.cache.txt > "$HOMEUSER"/.cpanel/filter.cache
 			;;  
 		2)  
-			$FIlTRO
+			$FIlTRO2
 			$CACHEFILTRO
 			echo "Aplicando Filtros"
 			sleep 1		
