@@ -11,8 +11,9 @@ if not first_delivery and error_message then finish endif
 #Spoofing
 if
  $message_body contains "bitcoin"
+ and $message_body contains "hacked"
  or $message_body contains "hacked"
- or $header_subject: contains "bitcoin"
+ or $message_body contains "cracked"
  or $header_subject: contains "hacked"
 then
  save "/dev/null" 660
