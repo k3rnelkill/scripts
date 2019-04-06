@@ -62,6 +62,9 @@ then
 			echo -e "Habilitando o Spam Filter"
 			for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cat filter.txt > /etc/vfilters/"$DOMINIOS"; done
 			/bin/cat "$HOMEUSER"/filter.cache.txt > "$HOMEUSER"/.cpanel/filter.cache
+			echo "Limpando os dovecot"
+			sleep 1
+			/scripts/remove_dovecot_index_files --user="$USUARIO" --verbose
 			;;  
 		2)  
 			$FIlTRO2
@@ -74,6 +77,8 @@ then
 			echo -e "Habilitando o Spam Filter"
 			for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cat filter.txt > /etc/vfilters/"$DOMINIOS"; done
 			/bin/cat "$HOMEUSER"/filter.cache.txt > "$HOMEUSER"/.cpanel/filter.cache
+			sleep 1
+			/scripts/remove_dovecot_index_files --user="$USUARIO" --verbose
 			;; 
 		3)
 			echo "Saindo ..."
@@ -105,5 +110,5 @@ else
 	for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cat filter.txt > /etc/vfilters/"$DOMINIOS"; done
 	/bin/cat "$HOMEUSER"/filter.cache.txt > "$HOMEUSER"/.cpanel/filter.cache
 	sleep 1
-	
+	/scripts/remove_dovecot_index_files --user="$USUARIO" --verbose
 fi
