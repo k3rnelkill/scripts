@@ -30,7 +30,7 @@ echo $HOMEUSER
 if [ -f $HOMEUSER"/.spamassassinenable" ]
 then
 	echo -e "Executando o IF"
-	echo -e "\nJá existe um Spam Filter ativo"
+	echo -e "\nJá existe um Spam Filter Ativo."
 	echo ""
 	echo -e "\nDeseja sobrescrever a configuração?"
 	echo ""
@@ -48,6 +48,7 @@ then
 			$CACHEFILTRO
 			echo "Refazendo ativação padrão"
 			sleep 1
+			echo "" > "$DIR""/user_prefs"
 			uapi --user="$USUARIO" Email disable_spam_assassin
 			echo "Score Spam 5.0"
 			sleep 1
