@@ -48,8 +48,8 @@ then
 			$CACHEFILTRO
 			echo "Refazendo ativação padrão"
 			sleep 1
-			echo "" > "$DIR""/user_prefs"
 			uapi --user="$USUARIO" Email disable_spam_assassin
+			echo "" > "$DIR""/user_prefs"
 			echo "Score Spam 5.0"
 			sleep 1
 			uapi --user="$USUARIO" Email enable_spam_assassin 
