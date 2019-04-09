@@ -24,7 +24,7 @@ DATA=`date +%Y%m%d"_"%H%M`
 #FILTRO=`wget https://raw.githubusercontent.com/marquesms/scripts/master/procedimentos/filter.txt -O "$HOMEUSER/filter.txt"`
 FILTRO="https://raw.githubusercontent.com/marquesms/scripts/master/procedimentos/filter.txt"
 #FILTRO2=`wget https://raw.githubusercontent.com/marquesms/scripts/master/procedimentos/filter2.txt -O "$HOMEUSER/filter.txt"`
-FILTRO2="https://raw.githubusercontent.com/marquesms/scripts/master/procedimentos/filter2.txt"
+#FILTRO2="https://raw.githubusercontent.com/marquesms/scripts/master/procedimentos/filter2.txt"
 #CACHEFILTRO=`wget https://raw.githubusercontent.com/marquesms/scripts/master/procedimentos/filter.cache.txt -O "$HOMEUSER/filter.cache.txt"`
 CACHEFILTRO="https://raw.githubusercontent.com/marquesms/scripts/master/procedimentos/filter.cache.txt"
 
@@ -69,7 +69,7 @@ then
 			echo -e ""$verde"\nHabilitando auto Delete"$corPadrao""
 			sleep 1
 			cpapi1 --user="$USUARIO" Email enable_spam_autodelete
-			echo -e "Efetuando backup do vFilter"$corPadrao""
+			echo -e ""$verde"Efetuando backup do vFilter"$corPadrao""
 			for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cp -pv /etc/vfilters/"$DOMINIOS" "$HOMEUSER"/"$DATA"_vfilter_"$DOMINIOS"; done
 			sleep 1
 			echo -e ""$verde"\nHabilitando o Filtros Globais"$corPadrao""
@@ -79,22 +79,29 @@ then
 			sleep 1
 			/scripts/remove_dovecot_index_files --user="$USUARIO" --verbose
 			echo -e ""$verde"\nFinalizado a implementação"$corPadrao""
-			echo -e ""$vermelho"Dicas de melhorias para os filtros, envie e-mail para thiagomarquesdums@gmail.com"$corPadrao""
+			echo -e ""$vermelho"Dicas de melhorias para os filtros, Informe ao Gustavo Nogueira."$corPadrao""
 			;;  
 		2)  
-			/usr/bin/wget $FILTRO2 -O "$HOMEUSER"/filter.txt
+			/usr/bin/wget $FILTRO -O "$HOMEUSER"/filter.txt
 			/usr/bin/wget $CACHEFILTRO -O "$HOMEUSER"/filter.cache.txt
+			echo -e ""$verde"\nScore Spam 5.0"$corPadrao""
+			sleep 1
+                        uapi --user="$USUARIO" SpamAssassin update_user_preference preference=score value-0="ACT_NOW_CAPS 5.0"
+                        echo -e ""$verde"\nHabilitando auto Delete"$corPadrao""
+			cpapi1 --user="$USUARIO" Email enable_spam_autodelete
 			echo -e ""$verde"\nAplicando Filtros"$corPadrao""
 			sleep 1		
-			echo -e "Efetuando backup do vFilter"
+			echo -e ""$verde"Efetuando backup do vFilter"$corPadrao""
 			for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cp -pv /etc/vfilters/"$DOMINIOS" "$HOMEUSER"/"$DATA"_vfilter_"$DOMINIOS"; done
 			sleep 1
 			echo -e "Habilitando o Spam Filter"
 			for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cat filter.txt > /etc/vfilters/"$DOMINIOS"; done
 			/bin/cat "$HOMEUSER"/filter.cache.txt > "$HOMEUSER"/.cpanel/filter.cache
 			sleep 1
+			echo -e ""$verde"\nLimpando os dovecot"$corPadrao""
 			/scripts/remove_dovecot_index_files --user="$USUARIO" --verbose
-			;; 
+			echo -e ""$verde"\nFinalizado a implementação"$corPadrao""
+			;;
 		3)
 			echo "Saindo ..."
 			exit
@@ -124,5 +131,7 @@ else
 	for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cat filter.txt > /etc/vfilters/"$DOMINIOS"; done
 	/bin/cat "$HOMEUSER"/filter.cache.txt > "$HOMEUSER"/.cpanel/filter.cache
 	sleep 1
+	echo -e ""$verde"\nLimpando os dovecot"$corPadrao""
 	/scripts/remove_dovecot_index_files --user="$USUARIO" --verbose
+	echo -e ""$verde"\nFinalizado a implementação"$corPadrao""
 fi
