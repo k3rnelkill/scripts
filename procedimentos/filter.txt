@@ -27,12 +27,16 @@ if
  or $header_subject: contains "milenar"
  or $header_subject: contains "estimulante"
  or $header_subject: contains "sexual"
- or $message_body contains "oferta"
+ or $header_subject: contains "schoolgirls"
+ or $header_subject: contains "adult"
+  $message_body contains "oferta"
  or $message_body contains "cupom"
  or $message_body contains "desconto"
  or $message_body contains "milenar"
  or $message_body contains "estimulante"
  or $message_body contains "sexual"
+ or $message_body contains "schoolgirls"
+ or $message_body contains "adult"
 then
  save "/dev/null" 660
 endif

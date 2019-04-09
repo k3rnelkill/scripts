@@ -1,0 +1,139 @@
+--- 
+filter: 
+  - 
+    actions: 
+      - 
+        action: save
+        dest: /dev/null
+    enabled: 1
+    filtername: Spoofing
+    rules: 
+      - 
+        match: contains
+        opt: and
+        part: $message_body
+        val: bitcoin
+      - 
+        match: contains
+        opt: or
+        part: $message_body
+        val: hacked
+      - 
+        match: contains
+        opt: or
+        part: $message_body
+        val: hacked
+      - 
+        match: contains
+        opt: or
+        part: $message_body
+        val: cracked
+      - 
+        match: contains
+        opt: or
+        part: "$header_subject:"
+        val: hacked
+    unescaped: 1
+  - 
+    actions: 
+      - 
+        action: save
+        dest: /dev/null
+    filtername: Spam
+    rules: 
+      - 
+        match: contains
+        opt: or
+        part: "$header_subject:"
+        val: oferta
+      - 
+        match: contains
+        opt: or
+        part: "$header_subject:"
+        val: cupom
+      - 
+        match: contains
+        opt: or
+        part: "$header_subject:"
+        val: desconto
+      - 
+        match: contains
+        opt: or
+        part: "$header_subject:"
+        val: milenar
+      - 
+        match: contains
+        opt: or
+        part: "$header_subject:"
+        val: estimulante
+      - 
+        match: contains
+        opt: or
+        part: "$header_subject:"
+        val: sexual
+      - 
+        match: contains
+        opt: or
+        part: "$header_subject:"
+        val: schoolgirls
+      - 
+        match: contains
+        opt: ~
+        part: "$header_subject:"
+        val: adult
+      - 
+        match: contains
+        opt: or
+        part: $message_body
+        val: oferta
+      - 
+        match: contains
+        opt: or
+        part: $message_body
+        val: cupom
+      - 
+        match: contains
+        opt: or
+        part: $message_body
+        val: desconto
+      - 
+        match: contains
+        opt: or
+        part: $message_body
+        val: milenar
+      - 
+        match: contains
+        opt: or
+        part: $message_body
+        val: estimulante
+      - 
+        match: contains
+        opt: or
+        part: $message_body
+        val: sexual
+      - 
+        match: contains
+        opt: or
+        part: $message_body
+        val: schoolgirls
+      - 
+        match: contains
+        opt: ~
+        part: $message_body
+        val: adult
+    unescaped: 1
+  - 
+    actions: 
+      - 
+        action: save
+        dest: /dev/null
+    enabled: 1
+    filtername: Generated Apache SpamAssassin™ Discard Rule
+    rules: 
+      - 
+        match: contains
+        opt: or
+        part: "$h_X-Spam-Bar:"
+        val: +++++
+    unescaped: 1
+version: '2.2'

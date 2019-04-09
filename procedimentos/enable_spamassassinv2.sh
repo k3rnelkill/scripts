@@ -118,7 +118,7 @@ else
 	echo -e ""$verde"\nAtivando SPAMASSASSIN do usuário "$USUARIO" ..."$corPadrao""
 	sleep 1
 	uapi --user="$USUARIO" Email enable_spam_assassin
-	echo ""$verde"\nScore Spam 5.0"$corPadrao""
+	echo -e ""$verde"\nScore Spam 5.0"$corPadrao""
 	sleep 1
 	uapi --user="$USUARIO" SpamAssassin update_user_preference preference=score value-0="ACT_NOW_CAPS 5.0"
 	echo -e ""$verde"\nHabilitando auto Delete"$corPadrao""
