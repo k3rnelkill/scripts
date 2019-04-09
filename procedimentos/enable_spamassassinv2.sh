@@ -115,19 +115,19 @@ then
 else
 	/usr/bin/wget $FILTRO -O "$HOMEUSER"/filter.txt
 	/usr/bin/wget $CACHEFILTRO -O "$HOMEUSER"/filter.cache.txt
-	echo "Ativando SPAMASSASSIN do usuário "$USUARIO" ..."
+	echo -e ""$verde"\nAtivando SPAMASSASSIN do usuário "$USUARIO" ..."$corPadrao""
 	sleep 1
 	uapi --user="$USUARIO" Email enable_spam_assassin
-	echo "Score Spam 5.0"
+	echo ""$verde"\nScore Spam 5.0"$corPadrao""
 	sleep 1
 	uapi --user="$USUARIO" SpamAssassin update_user_preference preference=score value-0="ACT_NOW_CAPS 5.0"
-	echo -e "Habilitando auto Delete"
+	echo -e ""$verde"\nHabilitando auto Delete"$corPadrao""
 	sleep 1
 	cpapi1 --user="$USUARIO" Email enable_spam_autodelete
-	echo -e "Efetuando backup do vFilter"
+	echo -e ""$verde"\nEfetuando backup do vFilter"$corPadrao""
 	for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cp -pv /etc/vfilters/"$DOMINIOS" "$HOMEUSER"/"$DATA"_vfilter_"$DOMINIOS"; done
 	sleep 1
-	echo -e "Habilitando o Spam Filter"
+	echo -e ""$verde"\nHabilitando o Spam Filter"$corPadrao""
 	for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cat filter.txt > /etc/vfilters/"$DOMINIOS"; done
 	/bin/cat "$HOMEUSER"/filter.cache.txt > "$HOMEUSER"/.cpanel/filter.cache
 	sleep 1
