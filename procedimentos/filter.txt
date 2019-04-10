@@ -29,7 +29,7 @@ if
  or $header_subject: contains "sexual"
  or $header_subject: contains "schoolgirls"
  or $header_subject: contains "adult"
-  $message_body contains "oferta"
+ or $message_body contains "oferta"
  or $message_body contains "cupom"
  or $message_body contains "desconto"
  or $message_body contains "milenar"
