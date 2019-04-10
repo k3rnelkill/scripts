@@ -75,8 +75,8 @@ then
 			/bin/cat "$HOMEUSER"/filter.cache.txt > "$HOMEUSER"/.cpanel/filter.cache
 			sleep 1
 			echo -e ""$amarelo"\nEfetuando backup do FiltroYAML."$corPadrao""
-			/bin/cat "$HOMEUSER"/filter.yaml.txt > "$HOMEUSER"/.cpanel/filter.yaml
-			echo -e ""$verde"\nLimpando os dovecot"$corPadrao""
+			#/bin/cat "$HOMEUSER"/filter.yaml.txt > "$HOMEUSER"/.cpanel/filter.yaml
+			#echo -e ""$verde"\nLimpando os dovecot"$corPadrao""
 			sleep 1
 			/scripts/remove_dovecot_index_files --user="$USUARIO" --verbose
 			echo -e ""$verde"\nFinalizado a implementação"$corPadrao""
@@ -100,8 +100,8 @@ then
 			for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cat "$HOMEUSER"/filter.txt > /etc/vfilters/"$DOMINIOS"; done
 			/bin/cat "$HOMEUSER"/filter.cache.txt > "$HOMEUSER"/.cpanel/filter.cache
 			sleep 1
-			echo -e ""$amarelo"\nEfetuando backup do FiltroYAML."$corPadrao""
-			/bin/cat "$HOMEUSER"/filter.yaml.txt > "$HOMEUSER"/.cpanel/filter.yaml
+			#echo -e ""$amarelo"\nEfetuando backup do FiltroYAML."$corPadrao""
+			#/bin/cat "$HOMEUSER"/filter.yaml.txt > "$HOMEUSER"/.cpanel/filter.yaml
 			sleep 1
 			echo -e ""$verde"\nLimpando os dovecot"$corPadrao""
 			/scripts/remove_dovecot_index_files --user="$USUARIO" --verbose
@@ -121,26 +121,26 @@ else
 	/usr/bin/wget $FILTRO -O "$HOMEUSER"/filter.txt
 	/usr/bin/wget $CACHEFILTRO -O "$HOMEUSER"/filter.cache.txt
 	/usr/bin/wget $FILTROYAML -O "$HOMEUSER"/filter.yaml.txt
-	echo -e ""$verde"\nAtivando SPAMASSASSIN do usuário "$USUARIO" ..."$corPadrao""
+	echo -e ""$amarelo"\nAtivando SPAMASSASSIN do usuário "$USUARIO" ..."$corPadrao""
 	sleep 1
 	uapi --user="$USUARIO" Email enable_spam_assassin
-	echo -e ""$verde"\nScore Spam 5.0"$corPadrao""
+	echo -e ""$amarelo"\nScore Spam 5.0"$corPadrao""
 	sleep 1
 	uapi --user="$USUARIO" SpamAssassin update_user_preference preference=score value-0="ACT_NOW_CAPS 5.0"
-	echo -e ""$verde"\nHabilitando auto Delete"$corPadrao""
+	echo -e ""$amarelo"\nHabilitando auto Delete"$corPadrao""
 	sleep 1
 	cpapi1 --user="$USUARIO" Email enable_spam_autodelete
-	echo -e ""$verde"\nEfetuando backup do vFilter"$corPadrao""
+	echo -e ""$amarelo"\nEfetuando backup do vFilter"$corPadrao""
 	for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cp -pv /etc/vfilters/"$DOMINIOS" "$HOMEUSER"/"$DATA"_vfilter_"$DOMINIOS"; done
 	sleep 1
-	echo -e ""$verde"\nHabilitando o Spam Filter"$corPadrao""
+	echo -e ""$amarelo"\nHabilitando o Spam Filter"$corPadrao""
 	for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cat "$HOMEUSER"/filter.txt > /etc/vfilters/"$DOMINIOS"; done
 	/bin/cat "$HOMEUSER"/filter.cache.txt > "$HOMEUSER"/.cpanel/filter.cache
 	sleep 1
-	echo -e ""$amarelo"\nEfetuando backup do FiltroYAML."$corPadrao""
-	/bin/cat "$HOMEUSER"/filter.yaml.txt > "$HOMEUSER"/.cpanel/filter.yaml
+	#echo -e ""$amarelo"\nEfetuando backup do FiltroYAML."$corPadrao""
+	#/bin/cat "$HOMEUSER"/filter.yaml.txt > "$HOMEUSER"/.cpanel/filter.yaml
 	sleep 1
-	echo -e ""$verde"\nLimpando os dovecot"$corPadrao""
+	echo -e ""$amarelo"\nLimpando os dovecot"$corPadrao""
 	/scripts/remove_dovecot_index_files --user="$USUARIO" --verbose
-	echo -e ""$verde"\nFinalizado a implementação"$corPadrao""
+	echo -e ""$vermelho"\nFinalizado a implementação"$corPadrao""
 fi
