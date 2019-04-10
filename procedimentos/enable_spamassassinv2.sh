@@ -60,59 +60,60 @@ then
 			echo -e ""$vermelho"\nResetando regras do whitelist, blacklist e etc"$corPadrao""
 			echo "" > "$DIR""/user_prefs"
 			echo -e ""$vermelho"\nHabilitando SpamAssassin/SpamFilter"$corPadrao""
-			echo -e ""$verde"\nScore Spam 5.0"$corPadrao""
+			echo -e ""$amarelo"\nScore Spam 5.0"$corPadrao""
 			sleep 1
 			uapi --user="$USUARIO" Email enable_spam_assassin 
 			uapi --user="$USUARIO" SpamAssassin update_user_preference preference=score value-0="ACT_NOW_CAPS 5.0"
-			echo -e ""$verde"\nHabilitando auto Delete"$corPadrao""
+			echo -e ""$amarelo"\nHabilitando auto Delete"$corPadrao""
 			sleep 1
 			cpapi1 --user="$USUARIO" Email enable_spam_autodelete
-			echo -e ""$verde"Efetuando backup do vFilter"$corPadrao""
+			echo -e ""$amarelo"Efetuando backup do vFilter"$corPadrao""
 			for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cp -pv /etc/vfilters/"$DOMINIOS" "$HOMEUSER"/"$DATA"_vfilter_"$DOMINIOS"; done
 			sleep 1
-			echo -e ""$verde"\nHabilitando o Filtros Globais"$corPadrao""
+			echo -e ""$amarelo"\nHabilitando o Filtros Globais"$corPadrao""
 			for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cat "$HOMEUSER"/filter.txt > /etc/vfilters/"$DOMINIOS"; done
 			/bin/cat "$HOMEUSER"/filter.cache.txt > "$HOMEUSER"/.cpanel/filter.cache
 			sleep 1
 			echo -e ""$amarelo"\nEfetuando backup do FiltroYAML."$corPadrao""
-			#/bin/cat "$HOMEUSER"/filter.yaml.txt > "$HOMEUSER"/.cpanel/filter.yaml
-			#echo -e ""$verde"\nLimpando os dovecot"$corPadrao""
+			/bin/cat "$HOMEUSER"/filter.yaml.txt > "$HOMEUSER"/.cpanel/filter.yaml
+			echo -e ""$amarelo"\nLimpando os dovecot"$corPadrao""
 			sleep 1
 			/scripts/remove_dovecot_index_files --user="$USUARIO" --verbose
-			echo -e ""$verde"\nFinalizado a implementação"$corPadrao""
-			echo -e ""$vermelho"Dicas de melhorias para os filtros, Informe ao Gustavo Nogueira."$corPadrao""
+			echo -e ""$amarelo"\nFinalizado a implementação"$corPadrao""
+			echo -e ""$vermelho"Dicas de melhorias para os filtros ou erros, envie para thiagomarquesdums@gmail.com."$corPadrao""
 			;;  
 		2)  
 			/usr/bin/wget $FILTRO -O "$HOMEUSER"/filter.txt
 			/usr/bin/wget $CACHEFILTRO -O "$HOMEUSER"/filter.cache.txt
 			/usr/bin/wget $FILTROYAML -O "$HOMEUSER"/filter.yaml.txt
-			echo -e ""$verde"\nScore Spam 5.0"$corPadrao""
+			echo -e ""$amarelo"\nScore Spam 5.0"$corPadrao""
 			sleep 1
             uapi --user="$USUARIO" SpamAssassin update_user_preference preference=score value-0="ACT_NOW_CAPS 5.0"
-            echo -e ""$verde"\nHabilitando auto Delete"$corPadrao""
+            echo -e ""$amarelo"\nHabilitando auto Delete"$corPadrao""
 			cpapi1 --user="$USUARIO" Email enable_spam_autodelete
-			echo -e ""$verde"\nAplicando Filtros"$corPadrao""
+			echo -e ""$amarelo"\nAplicando Filtros"$corPadrao""
 			sleep 1		
-			echo -e ""$verde"Efetuando backup do vFilter"$corPadrao""
+			echo -e ""$amarelo"Efetuando backup do vFilter"$corPadrao""
 			for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cp -pv /etc/vfilters/"$DOMINIOS" "$HOMEUSER"/"$DATA"_vfilter_"$DOMINIOS"; done
 			sleep 1
-			echo -e "Habilitando o Spam Filter"
+			echo -e ""$amarelo"Habilitando o Spam Filter"$corPadrao""
 			for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cat "$HOMEUSER"/filter.txt > /etc/vfilters/"$DOMINIOS"; done
 			/bin/cat "$HOMEUSER"/filter.cache.txt > "$HOMEUSER"/.cpanel/filter.cache
 			sleep 1
-			#echo -e ""$amarelo"\nEfetuando backup do FiltroYAML."$corPadrao""
-			#/bin/cat "$HOMEUSER"/filter.yaml.txt > "$HOMEUSER"/.cpanel/filter.yaml
+			echo -e ""$amarelo"\nEfetuando backup do FiltroYAML."$corPadrao""
+			/bin/cat "$HOMEUSER"/filter.yaml.txt > "$HOMEUSER"/.cpanel/filter.yaml
 			sleep 1
-			echo -e ""$verde"\nLimpando os dovecot"$corPadrao""
+			echo -e ""$amarelo"\nLimpando os dovecot"$corPadrao""
 			/scripts/remove_dovecot_index_files --user="$USUARIO" --verbose
-			echo -e ""$verde"\nFinalizado a implementação"$corPadrao""
+			echo -e ""$amarelo"\nFinalizado a implementação"$corPadrao""
+			echo -e ""$vermelho"Dicas de melhorias para os filtros ou erros, envie para thiagomarquesdums@gmail.com."$corPadrao""
 			;;
 		3)
 			echo -e ""$vermelho"Saindo ..."$corPadrao""
 			exit
 			;;
 		*)  
-			echo ""$vermelho"Opção selecionada invalida"$corPadrao""
+			echo -e ""$vermelho"\nOpção selecionada invalida"$corPadrao""
 			exit 2
 			;;  
 	esac    
@@ -137,10 +138,11 @@ else
 	for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cat "$HOMEUSER"/filter.txt > /etc/vfilters/"$DOMINIOS"; done
 	/bin/cat "$HOMEUSER"/filter.cache.txt > "$HOMEUSER"/.cpanel/filter.cache
 	sleep 1
-	#echo -e ""$amarelo"\nEfetuando backup do FiltroYAML."$corPadrao""
-	#/bin/cat "$HOMEUSER"/filter.yaml.txt > "$HOMEUSER"/.cpanel/filter.yaml
+	echo -e ""$amarelo"\nEfetuando backup do FiltroYAML."$corPadrao""
+	/bin/cat "$HOMEUSER"/filter.yaml.txt > "$HOMEUSER"/.cpanel/filter.yaml
 	sleep 1
 	echo -e ""$amarelo"\nLimpando os dovecot"$corPadrao""
 	/scripts/remove_dovecot_index_files --user="$USUARIO" --verbose
 	echo -e ""$vermelho"\nFinalizado a implementação"$corPadrao""
+	echo -e ""$vermelho"Dicas de melhorias para os filtros ou erros, envie para thiagomarquesdums@gmail.com."$corPadrao""
 fi
