@@ -10,14 +10,9 @@ filter:
     rules: 
       - 
         match: contains
-        opt: and
-        part: $message_body
-        val: bitcoin
-      - 
-        match: contains
         opt: or
         part: $message_body
-        val: hacked
+        val: bitcoin
       - 
         match: contains
         opt: or
@@ -78,7 +73,7 @@ filter:
         val: schoolgirls
       - 
         match: contains
-        opt: ~
+        opt: or
         part: "$header_subject:"
         val: adult
       - 
@@ -118,7 +113,7 @@ filter:
         val: schoolgirls
       - 
         match: contains
-        opt: ~
+        opt: or
         part: $message_body
         val: adult
     unescaped: 1
