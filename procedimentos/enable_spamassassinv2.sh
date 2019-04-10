@@ -21,12 +21,9 @@ USUARIO=`pwd | awk -F/ {'print $3'}`
 HOMEUSER=`grep "$USUARIO" /etc/passwd | awk -F: {'print $6'}`
 DIR="$HOMEUSER"/.spamassassin""
 DATA=`date +%Y%m%d"_"%H%M`
-#FILTRO=`wget https://raw.githubusercontent.com/marquesms/scripts/master/procedimentos/filter.txt -O "$HOMEUSER/filter.txt"`
 FILTRO="https://raw.githubusercontent.com/marquesms/scripts/master/procedimentos/filter.txt"
-#FILTRO2=`wget https://raw.githubusercontent.com/marquesms/scripts/master/procedimentos/filter2.txt -O "$HOMEUSER/filter.txt"`
-#FILTRO2="https://raw.githubusercontent.com/marquesms/scripts/master/procedimentos/filter2.txt"
-#CACHEFILTRO=`wget https://raw.githubusercontent.com/marquesms/scripts/master/procedimentos/filter.cache.txt -O "$HOMEUSER/filter.cache.txt"`
 CACHEFILTRO="https://raw.githubusercontent.com/marquesms/scripts/master/procedimentos/filter.cache.txt"
+FILTROYAML="https://raw.githubusercontent.com/marquesms/scripts/master/procedimentos/filter.yaml.txt"
 
 #DEFININDO CORES
 corPadrao="\033[0m"
@@ -56,6 +53,7 @@ then
 		1)          
 			/usr/bin/wget $FILTRO -O "$HOMEUSER"/filter.txt
 			/usr/bin/wget $CACHEFILTRO -O "$HOMEUSER"/filter.cache.txt
+			/usr/bin/wget $FILTROYAML -O "$HOMEUSER"/filter.yaml.txt
 			echo ""$verde"Refazendo ativação padrão"$corPadrao""
 			sleep 1
 			uapi --user="$USUARIO" Email disable_spam_assassin
@@ -73,8 +71,11 @@ then
 			for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cp -pv /etc/vfilters/"$DOMINIOS" "$HOMEUSER"/"$DATA"_vfilter_"$DOMINIOS"; done
 			sleep 1
 			echo -e ""$verde"\nHabilitando o Filtros Globais"$corPadrao""
-			for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cat filter.txt > /etc/vfilters/"$DOMINIOS"; done
+			for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cat "$HOMEUSER"/filter.txt > /etc/vfilters/"$DOMINIOS"; done
 			/bin/cat "$HOMEUSER"/filter.cache.txt > "$HOMEUSER"/.cpanel/filter.cache
+			sleep 1
+			echo -e ""$amarelo"\nEfetuando backup do FiltroYAML."$corPadrao""
+			/bin/cat "$HOMEUSER"/filter.yaml.txt > "$HOMEUSER"/.cpanel/filter.yaml
 			echo -e ""$verde"\nLimpando os dovecot"$corPadrao""
 			sleep 1
 			/scripts/remove_dovecot_index_files --user="$USUARIO" --verbose
@@ -84,10 +85,11 @@ then
 		2)  
 			/usr/bin/wget $FILTRO -O "$HOMEUSER"/filter.txt
 			/usr/bin/wget $CACHEFILTRO -O "$HOMEUSER"/filter.cache.txt
+			/usr/bin/wget $FILTROYAML -O "$HOMEUSER"/filter.yaml.txt
 			echo -e ""$verde"\nScore Spam 5.0"$corPadrao""
 			sleep 1
-                        uapi --user="$USUARIO" SpamAssassin update_user_preference preference=score value-0="ACT_NOW_CAPS 5.0"
-                        echo -e ""$verde"\nHabilitando auto Delete"$corPadrao""
+            uapi --user="$USUARIO" SpamAssassin update_user_preference preference=score value-0="ACT_NOW_CAPS 5.0"
+            echo -e ""$verde"\nHabilitando auto Delete"$corPadrao""
 			cpapi1 --user="$USUARIO" Email enable_spam_autodelete
 			echo -e ""$verde"\nAplicando Filtros"$corPadrao""
 			sleep 1		
@@ -95,19 +97,22 @@ then
 			for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cp -pv /etc/vfilters/"$DOMINIOS" "$HOMEUSER"/"$DATA"_vfilter_"$DOMINIOS"; done
 			sleep 1
 			echo -e "Habilitando o Spam Filter"
-			for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cat filter.txt > /etc/vfilters/"$DOMINIOS"; done
+			for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cat "$HOMEUSER"/filter.txt > /etc/vfilters/"$DOMINIOS"; done
 			/bin/cat "$HOMEUSER"/filter.cache.txt > "$HOMEUSER"/.cpanel/filter.cache
+			sleep 1
+			echo -e ""$amarelo"\nEfetuando backup do FiltroYAML."$corPadrao""
+			/bin/cat "$HOMEUSER"/filter.yaml.txt > "$HOMEUSER"/.cpanel/filter.yaml
 			sleep 1
 			echo -e ""$verde"\nLimpando os dovecot"$corPadrao""
 			/scripts/remove_dovecot_index_files --user="$USUARIO" --verbose
 			echo -e ""$verde"\nFinalizado a implementação"$corPadrao""
 			;;
 		3)
-			echo "Saindo ..."
+			echo -e ""$vermelho"Saindo ..."$corPadrao""
 			exit
 			;;
 		*)  
-			echo "Opção selecionada invalida"
+			echo ""$vermelho"Opção selecionada invalida"$corPadrao""
 			exit 2
 			;;  
 	esac    
@@ -115,6 +120,7 @@ then
 else
 	/usr/bin/wget $FILTRO -O "$HOMEUSER"/filter.txt
 	/usr/bin/wget $CACHEFILTRO -O "$HOMEUSER"/filter.cache.txt
+	/usr/bin/wget $FILTROYAML -O "$HOMEUSER"/filter.yaml.txt
 	echo -e ""$verde"\nAtivando SPAMASSASSIN do usuário "$USUARIO" ..."$corPadrao""
 	sleep 1
 	uapi --user="$USUARIO" Email enable_spam_assassin
@@ -128,8 +134,11 @@ else
 	for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cp -pv /etc/vfilters/"$DOMINIOS" "$HOMEUSER"/"$DATA"_vfilter_"$DOMINIOS"; done
 	sleep 1
 	echo -e ""$verde"\nHabilitando o Spam Filter"$corPadrao""
-	for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cat filter.txt > /etc/vfilters/"$DOMINIOS"; done
+	for DOMINIOS in $(/bin/cat /etc/userdomains | grep "$USUARIO" | awk -F: {'print $1'}); do /bin/cat "$HOMEUSER"/filter.txt > /etc/vfilters/"$DOMINIOS"; done
 	/bin/cat "$HOMEUSER"/filter.cache.txt > "$HOMEUSER"/.cpanel/filter.cache
+	sleep 1
+	echo -e ""$amarelo"\nEfetuando backup do FiltroYAML."$corPadrao""
+	/bin/cat "$HOMEUSER"/filter.yaml.txt > "$HOMEUSER"/.cpanel/filter.yaml
 	sleep 1
 	echo -e ""$verde"\nLimpando os dovecot"$corPadrao""
 	/scripts/remove_dovecot_index_files --user="$USUARIO" --verbose
