@@ -11,7 +11,7 @@ echo -e "Usuário: $USERCOLLECT"
 echo -e "Path $USERDIRECTORY"
 echo -e "Email Path $EMAILPATH"
 
-if [ `echo $COUNTDOMAIN` -gt 1 ]
+if [ `$COUNTDOMAIN` -gt 1 ]
 then 
 	echo -e "Domínios $USERCOLLECT relacionados ao usuário"
 	$USERDOMAIN
