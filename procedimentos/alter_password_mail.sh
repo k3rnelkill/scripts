@@ -8,7 +8,6 @@ branco="\033[1;37m"
 amarelo="\033[1;33m"
 
 USERCOLLECT=`pwd | awk -F/ {'print $3'}`
-#USERCOLLECT="commitlinux"
 PASS=`cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 20 | head -n1`
 USERDIRECTORY=`grep "$USERCOLLECT" /etc/passwd | cut -d: -f6`
 DOMAIN=`grep "$USERCOLLECT" /etc/trueuserdomains | awk '{print $1}' | sed 's/\://'`
@@ -19,7 +18,6 @@ COUNTDOMAIN=`grep "$USERCOLLECT" /etc/userdomains | wc -l`
 echo -e ""$vermelho"Informações coletadas."$corPadrao""
 echo -e ""$vermelho"Usuário: "$amarelo"$USERCOLLECT"$corPadrao""
 echo -e ""$vermelho"Path "$amarelo"$USERDIRECTORY"$corPadrao""
-#echo -e ""$vermelho"Email Path "$amarelo"$EMAILPATH"$corPadrao""
 
 if [ `echo $COUNTDOMAIN` -gt 1 ]
 then 
@@ -33,12 +31,11 @@ then
 	echo -e ""$vermelho"Path EMAIL: "$amarelo"$EMAILPATH""$corPadrao"
 	echo -e "================================"
 	ls -1 $EMAILPATH | sed 's/\///' | sed 's/^\.*//' | sed '/^$/d'
-	#for CONTAS in $(ls -1 $EMAILPATH | sed 's/\///' | sed 's/^\.*//' | sed '/^$/d'); do uapi --user="$USERCOLLECT" Email passwd_pop email="$CONTAS" password="PASS" domain="$DOMAIN"
+	#for CONTAS in $(ls -1 $EMAILPATH | sed 's/\///' | sed 's/^\.*//' | sed '/^$/d'); do uapi --user="$USERCOLLECT" Email passwd_pop email="$CONTAS" password="PASS" domain="$DOMAIN"; done
 else
 	echo -e ""$vermelho"Alterando e-mail das contas "$amarelo"$DOMAIN"$corPadrao""
 	sleep 2
-	#for CONTA in $(ls -1 | sed 's/\///' | sed 's/^\.*//' | sed '/^$/d'); do uapi --user=$USERCOLLECT Email passwd_pop email=$conta password=`` domain=$DOMAIN; done
-	ls -1 | sed 's/\///' | sed 's/^\.*//' | sed '/^$/d' $EMAILPATH
+	ls -1 $EMAILPATH | sed 's/\///' | sed 's/^\.*//' | sed '/^$/d'
 	echo $USERCOLLECT
 	echo $DOMAIN
 	#uapi --user=commitlinux Email passwd_pop email=contato password=NavalhaLouca123 domain=commitlinux.com.br
