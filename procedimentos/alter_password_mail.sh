@@ -30,13 +30,15 @@ then
 	echo -e ""$vermelho"Domínio selecionado: "$amarelo"$DOMAIN""$corPadrao"
 	echo -e ""$vermelho"Path EMAIL: "$amarelo"$EMAILPATH""$corPadrao"
 	echo -e "================================"
+	sleep 3
 	ls -1 $EMAILPATH | sed 's/\///' | sed 's/^\.*//' | sed '/^$/d'
-	#for CONTAS in $(ls -1 $EMAILPATH | sed 's/\///' | sed 's/^\.*//' | sed '/^$/d'); do uapi --user="$USERCOLLECT" Email passwd_pop email="$CONTAS" password="PASS" domain="$DOMAIN"; done
+	for CONTAS in $(ls -1 $EMAILPATH | sed 's/\///' | sed 's/^\.*//' | sed '/^$/d'); do uapi --user="$USERCOLLECT" Email passwd_pop email="$CONTAS" password="$PASS" domain="$DOMAIN"; done
 else
-	echo -e ""$vermelho"Alterando e-mail das contas "$amarelo"$DOMAIN"$corPadrao""
-	sleep 2
+	echo -e "================================"
+	echo -e ""$vermelho"Domínio selecionado: "$amarelo"$DOMAIN""$corPadrao"
+	echo -e ""$vermelho"Path EMAIL: "$amarelo"$EMAILPATH""$corPadrao"
+	echo -e "================================" 
+	sleep 3
 	ls -1 $EMAILPATH | sed 's/\///' | sed 's/^\.*//' | sed '/^$/d'
-	echo $USERCOLLECT
-	echo $DOMAIN
-	#uapi --user=commitlinux Email passwd_pop email=contato password=NavalhaLouca123 domain=commitlinux.com.br
+	for CONTAS in $(ls -1 $EMAILPATH | sed 's/\///' | sed 's/^\.*//' | sed '/^$/d'); do uapi --user="$USERCOLLECT" Email passwd_pop email="$CONTAS" password="$PASS" domain="$DOMAIN"; done
 fi
