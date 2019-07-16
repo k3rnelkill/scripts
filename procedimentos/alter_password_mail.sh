@@ -61,7 +61,7 @@ then
 		#Printing password
 		echo -e "\n"$vermelho"Usuário:"$corPadrao" "$CONTAS" "$vermelho"Senha:"$corPadrao" `cat /tmp/passtemp.txt`" 
 		#
-		/usr/bin/uapi --user="$USERCOLLECT" Email passwd_pop email="$CONTAS" password=`cat /tmp/passtemp.txt` domain="$DOMAIN" 2>&1 /tmp/alter_pass.txt
+		/usr/bin/uapi --user="$USERCOLLECT" Email passwd_pop email="$CONTAS" password=`cat /tmp/passtemp.txt` domain="$DOMAIN" 2>&1> /tmp/alter_pass.txt
 		echo -e "================================"
 	done
 #will change the password of the unique account	
@@ -77,7 +77,7 @@ else
 		/bin/cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 20 | head -n1 > /tmp/passtemp.txt
 		echo -e "================================"
 		echo -e "\n"$vermelho"Usuário:"$corPadrao" "$CONTAS" "$vermelho"Senha:"$corPadrao" `cat /tmp/passtemp.txt`" 
-		/usr/bin/uapi --user="$USERCOLLECT" Email passwd_pop email="$CONTAS" password=`cat /tmp/passtemp.txt` domain="$DOMAIN" 2>&1 /tmp/alter_pass.txt
+		/usr/bin/uapi --user="$USERCOLLECT" Email passwd_pop email="$CONTAS" password=`cat /tmp/passtemp.txt` domain="$DOMAIN" 2>&1> /tmp/alter_pass.txt
 		echo -e "================================"
 	done
 fi
