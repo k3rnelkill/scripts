@@ -33,10 +33,11 @@ then
 	echo -e "================================"
 	sleep 3
 	#ls -1 $EMAILPATH | sed 's/\///' | sed 's/^\.*//' | sed '/^$/d'
-	for CONTAS in $(ls -1 $EMAILPATH | sed 's/\///' | sed 's/^\.*//' | sed '/^$/d'); do 
+	for CONTAS in $(ls -1 $EMAILPATH | sed 's/\///' | sed 's/^\.*//' | sed '/^$/d')
+       	do 
 		/bin/cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 20 | head -n1 > /tmp/passtemp.txt
 		echo -e "\nUsuário: $CONTAS Senha: `cat /tmp/passtemp.txt`;" 
-		/usr/bin/uapi --user="$USERCOLLECT" Email passwd_pop email="$CONTAS" password=`cat /tmp/passtemp.txt` domain="$DOMAIN"; 
+		/usr/bin/uapi --user="$USERCOLLECT" Email passwd_pop email="$CONTAS" password=`cat /tmp/passtemp.txt` domain="$DOMAIN" 
 	done
 else
 	echo -e "================================"
