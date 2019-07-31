@@ -7,6 +7,7 @@ SHOWUSERS=`egrep -rli 'internal|latam|migration' /var/cpanel/suspended/ | awk -F
 defaultColor="\033[0m"
 green="\033[1;32m"
 red="\033[1;31m"
+blue="\033[0;34m"
 yellow="\033[1;33m"
 
 if [ $QTDSUSPEND -gt 0 ]
@@ -15,8 +16,9 @@ then
         sleep 2
         echo -e ""$yellow"Migrations completed. Users bellow."$defaultColor""
         echo -e "$green""\n$SHOWUSERS"$defaultColor""
-
-        read -p "Informe the user :" USUARIO
+	echo "$blue"
+        read -p "Informe the user: " USUARIO
+	echo "$defaultColor"
 
         DNSORIGIN=$(ui -d "${USUARIO:-VAZIO}" | grep "NS2" | awk '{print $2}')
         DNSDEST=$(whois `ui -d "${USUARIO:-VAZIO}" | grep "U. Domain" | awk '{print $3}'` | grep "nserver" | tail -n1 | awk '{print $2}')
