@@ -16,9 +16,9 @@ then
         sleep 2
         echo -e ""$yellow"Migrations completed. Users bellow."$defaultColor""
         echo -e "$green""\n$SHOWUSERS"$defaultColor""
-	echo "$blue"
+	echo -e "$blue"
         read -p "Informe the user: " USUARIO
-	echo "$defaultColor"
+	echo -e "$defaultColor"
 
         DNSORIGIN=$(ui -d "${USUARIO:-VAZIO}" | grep "NS2" | awk '{print $2}')
         DNSDEST=$(whois `ui -d "${USUARIO:-VAZIO}" | grep "U. Domain" | awk '{print $3}'` | grep "nserver" | tail -n1 | awk '{print $2}')
