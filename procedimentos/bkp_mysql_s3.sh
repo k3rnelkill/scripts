@@ -12,7 +12,7 @@
 #                                                                #
 ##################################################################
 SERVER=`hostname`
-RSYNC`which rsync`
+RSYNC=`which rsync`
 DIR="/root/bancobkp/"
 DIRDEST=""
 LOG="/var/log/bkp_mysql.log"
