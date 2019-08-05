@@ -3,12 +3,12 @@
 ## Nome: bkp-mysql.sh                                            #
 #                                                                #
 # Autor: Thiago Marques (thiagomarquesdums@gmail.com)            #
-# Data: 04/08/19                                                 #
-#                                                                #
+# Data: 04/08/19                                                 #   
+# Requisitos: Possuir s3fs instalado e chaves IAM do buket       #
 # Descrição: Faz um backup de todos os bancos e compacta, monta  #
 # partição do backup e envia dos dados                           #
 #                                                                #
-# USO: ./bkp-mysql.sh                                            #
+# USO: ./bkp_mysql_s3.sh                                         #
 #                                                                #
 ##################################################################
 SERVER=`hostname`
