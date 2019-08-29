@@ -26,9 +26,9 @@ sleep 2
 echo "DatabaseCustomURL http://cdn.malware.expert/malware.expert.ndb
 DatabaseCustomURL http://cdn.malware.expert/malware.expert.hdb
 DatabaseCustomURL http://cdn.malware.expert/malware.expert.ldb
-DatabaseCustomURL http://cdn.malware.expert/malware.expert.fp" >> /usr/local/freshclam.conf
+DatabaseCustomURL http://cdn.malware.expert/malware.expert.fp" >> /usr/local/cpanel/3rdparty/etc/freshclam.conf
 
-echo -e "$red""\nRestarting and Updating freshclam\n"$defaultColor""
+echo -e "$red""\nRestarting and Updating freshclam"$defaultColor""
 
 sleep 2
 /usr/local/cpanel/3rdparty/bin/freshclam restart
