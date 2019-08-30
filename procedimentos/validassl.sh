@@ -2,8 +2,8 @@
 
 CURRENTYEAR=`date "+%Y"`
 CURRENTMONTH=`date "+%b"`
-MATURITYEAR=`curl -v https://dominio.com.br 2>&1 | grep "expire date" | awk '{print $7}'`
-MONTH=`curl -v https://dominio.com.br 2>&1 | grep "expire date" | awk '{print $4}'`
+MATURITYEAR=`curl -v https://`hostname` 2>&1 | grep "expire date" | awk '{print $7}'`
+MONTH=`curl -v https://`hostname` 2>&1 | grep "expire date" | awk '{print $4}'`
 
 
 echo "Ano atual $CURRENTYEAR"
