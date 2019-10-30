@@ -20,13 +20,16 @@
 IFSback=$IFS
 IFS=$'\n'
 
+#RESET TMP FILE SPAMMER
+echo > /tmp/spammer.txt
+
 #GET COMMON WORDS USED IN SPAM
 /usr/bin/wget https://raw.githubusercontent.com/marquesms/scripts/master/arquivos/common-spam.txt -O /tmp/common-spam.txt
 
 #LOOP THAT WILL CYCLE THROUGH THE EXIM_MAINLOG FILE FOR KEYWORDS IDENTICAL TO THE common.spam.txt FILE
 #USE THIS LINE TO SEARCH ON A SPECIFIC DATE
 #for i in $(cat /tmp/common-spam.txt); do grep -w $i /var/log/exim_mainlog | grep 2019-10-23; done
-for i in $(cat /tmp/common-spam.txt); do grep -w $i /var/log/exim_mainlog | grep `/bin/date +%Y-%m-%d`; done
+for i in $(cat /tmp/common-spam.txt); do grep -w $i /var/log/exim_mainlog | grep `/bin/date +%Y-%m-%d` | grep "<=" | awk -F\@ '{print $2}' | awk '{print $1}' | tee -a /tmp/spammer.txt; done
 
 #RETURN BACKUP IFS
 IFS=$IFSback
