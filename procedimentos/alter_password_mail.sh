@@ -9,7 +9,7 @@
 #                                                                                                                                        #
 # Description: Used to change the password for the email account.                                                                        #
 #                                                                                                                                        #
-# Use: ./bkp-mysql.sh or bash <(curl -ks https://raw.githubusercontent.com/marquesms/scripts/master/procedimentos/alter_password_mail.sh)#
+# Use: bash <(curl -ks https://raw.githubusercontent.com/marquesms/scripts/master/procedimentos/alter_password_mail.sh)                  #
 #                                                                                                                                        #
 ##########################################################################################################################################
 
@@ -19,6 +19,12 @@ verde="\033[1;32m"
 vermelho="\033[1;31m"
 branco="\033[1;37m"
 amarelo="\033[1;33m"
+
+echo -e ""$vermelho"PLEASE, Execute in USER PATH!"$corPadrao""
+
+sleep 5
+
+echo -e ""$vermelho"STARTING ... "$corPadrao""
 
 #Collect user cPanel
 USERCOLLECT=`pwd | awk -F/ {'print $3'}`
