@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PASSWORD=$(grep "Password" /opt/bacula/etc/bacula-dir.conf | awk '{print $3}' | sed 's/\"//g')
-SQLCHECK=$(mysql -NB -h localhost -ubacula -p$PASSWORD -Dbacula -e "SELECT JobId, FROM_UNIXTIME(JobTDate,'%d-%m-%Y') Job, Name, JobStatus ClientId FROM Job WHERE JobStatus<>'T';" | grep `date +%d-%m-%Y` | egrep -wv 'R|C')
+SQLCHECK=$(mysql -NB -h localhost -u******* -p$PASSWORD -Dbacula -e "SELECT JobId, FROM_UNIXTIME(JobTDate,'%d-%m-%Y') Job, Name, JobStatus ClientId FROM Job WHERE JobStatus<>'T';" | grep `date +%d-%m-%Y` | egrep -wv 'R|C')
 
 if [ `echo $?` -eq 0 ]
 then
