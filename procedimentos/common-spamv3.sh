@@ -32,7 +32,8 @@ if [ -f /tmp/hour_spam.txt ]
 then
 	for i in $(cat /tmp/common-spam.txt)
 	do 
-		grep -w $i /var/log/exim_mainlog | grep -B 1000000 `cat /tmp/hour_spam.txt` | grep "<=" | awk -F\@ '{print $2}' | awk '{print $1}' 2>&1 >> /tmp/temp_spammer.txt
+		#grep -w $i /var/log/exim_mainlog | grep -B 1000000 `cat /tmp/hour_spam.txt` | grep "<=" | awk -F\@ '{print $2}' | awk '{print $1}' 2>&1 >> /tmp/temp_spammer.txt
+		grep -A 1000000 -w "`cat /tmp/hour_spam.txt`" /var/log/exim_mainlog | grep -w $i | grep "<=" | awk -F\@ '{print $2}' | awk '{print $1}' 2>&1 >> /tmp/temp_spammer.txt
 	done
 else
 	for i in $(cat /tmp/common-spam.txt)
