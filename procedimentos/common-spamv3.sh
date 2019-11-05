@@ -28,16 +28,24 @@ echo > /tmp/domain_spammer.txt
 /usr/bin/wget https://raw.githubusercontent.com/marquesms/scripts/master/arquivos/common-spam.txt -O /tmp/common-spam.txt
 
 #LOOP THAT WILL CYCLE THROUGH THE EXIM_MAINLOG FILE FOR KEYWORDS IDENTICAL TO THE common.spam.txt FILE
-#USE THIS LINE TO SEARCH ON A SPECIFIC DATE
-for i in $(cat /tmp/common-spam.txt); do grep -w $i /var/log/exim_mainlog | grep `/bin/date +%Y-%m-%d` | grep "<=" | awk -F\@ '{print $2}' | awk '{print $1}' 2>&1 >> /tmp/temp_spammer.txt; done
-#for i in $(cat /tmp/common-spam.txt); do grep -w $i /var/log/exim_mainlog | grep "2019-10-30" | grep "<=" | awk -F\@ '{print $2}' | awk '{print $1}' | tee -a /tmp/temp_spammer.txt; done
+if [ -f /tmp/hour_spam.txt ]
+then
+	for i in $(cat /tmp/common-spam.txt)
+	do 
+		grep -w $i /var/log/exim_mainlog | grep -B 1000000 `cat /tmp/hour_spam.txt` | grep "<=" | awk -F\@ '{print $2}' | awk '{print $1}' 2>&1 >> /tmp/temp_spammer.txt
+	done
+else
+	for i in $(cat /tmp/common-spam.txt)
+	do
+		grep -w $i /var/log/exim_mainlog | grep `/bin/date +%Y-%m-%d` | grep "<=" | awk -F\@ '{print $2}' | awk '{print $1}' 2>&1 >> /tmp/temp_spammer.txt
+	done
+fi
 
 #REMOVED DUPLICATE LINES
 cat /tmp/temp_spammer.txt | sort | uniq > /tmp/possible_spammer.txt
 #REMOVED TEMP FILE
 rm -f /tmp/temp_spammer.txt
 
-#for i in $(cat /tmp/domain_spammer.txt); do grep $i /etc/userdomain ; echo $? ; done
 for x in $(cat /tmp/possible_spammer.txt)
 do
         grep $x /etc/userdomains
@@ -54,6 +62,10 @@ then
 else
         echo 0 > /tmp/spammer.txt
 fi
+
+#SAVE TIME EXEC - COLLECT LAST EMAIL SEND
+#/bin/date "+%Y-%m-%d %H" > /tmp/hour_spam.txt
+/bin/cat /var/log/exim_mainlog | grep "<=" | awk '{print $1" "$2}' | tail -n1 > /tmp/hour_spam.txt
 
 #RETURN BACKUP IFS
 IFS=$IFSback
