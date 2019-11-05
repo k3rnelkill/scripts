@@ -65,7 +65,8 @@ fi
 
 #SAVE TIME EXEC - COLLECT LAST EMAIL SEND
 #/bin/date "+%Y-%m-%d %H" > /tmp/hour_spam.txt
-/bin/cat /var/log/exim_mainlog | grep "<=" | awk '{print $1" "$2}' | tail -n1 > /tmp/hour_spam.txt
+#/bin/cat /var/log/exim_mainlog | grep "<=" | awk '{print $1" "$2}' | tail -n1 > /tmp/hour_spam.txt
+/bin/cat /var/log/exim_mainlog | grep "<=" | tail -n1 | awk -F\. '{print $1}' > /tmp/hour_spam.txt
 
 #RETURN BACKUP IFS
 IFS=$IFSback
