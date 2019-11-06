@@ -33,12 +33,12 @@ if [ -f /tmp/hour_spam.txt ]
 then
 	for i in $(cat /tmp/common-spam.txt)
 	do 
-		grep -A 1000000 -w "`cat /tmp/hour_spam.txt`" $LOGFILE | grep -w $i | grep "<=" | awk -F\@ '{print $2}' | awk '{print $1}' 2>&1 >> /tmp/temp_spammer.txt
+		grep -A 1000000 -w "$(cat /tmp/hour_spam.txt)" $LOGFILE | grep -w $i | grep "<=" | awk -F\@ '{print $2}' | awk '{print $1}' 2>&1 >> /tmp/temp_spammer.txt
 	done
 else
 	for i in $(cat /tmp/common-spam.txt)
 	do
-		grep -w $i $LOGFILE | grep `/bin/date +%Y-%m-%d` | grep "<=" | awk -F\@ '{print $2}' | awk '{print $1}' 2>&1 >> /tmp/temp_spammer.txt
+		grep -w $i $LOGFILE | grep $(/bin/date +%Y-%m-%d) | grep "<=" | awk -F\@ '{print $2}' | awk '{print $1}' 2>&1 >> /tmp/temp_spammer.txt
 	done
 fi
 
@@ -65,7 +65,8 @@ else
 fi
 
 #SAVE TIME EXEC - COLLECT LAST EMAIL SEND
-/bin/cat /var/log/exim_mainlog | grep "<=" | tail -n1 | awk -F\. '{print $1}' > /tmp/hour_spam.txt
+#/bin/cat /var/log/exim_mainlog | grep "<=" | tail -n1 | awk -F\. '{print $1}' > /tmp/hour_spam.txt
+/bin/cat /var/log/exim_mainlog | grep "<=" | tail -n1 | awk '{print $1" "$2}' > /tmp/hour_spam.txt
 
 #RETURN BACKUP IFS
 IFS=$IFSback
