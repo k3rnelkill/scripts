@@ -2,14 +2,14 @@
 
 ##########################################################################################################################################
 #                                                                                                                                        #
-# Name: acctsuspended.sh                                                                                                           		 #
+# Name: acctsuspended.sh                                                                                                           	 #
 #                                                                                                                                        #
 # Author: Thiago Marques (thiagomarquesdums@gmail.com)                                                                                   #
 # Date: 20/01/20                                                                                                                         #
 #                                                                                                                                        #
-# Description: script finds the server and suspends it.                                                                     			 #
+# Description: script finds the server and suspends it.                                                                     		 #
 #                                                                                                                                        #
-# Use: acctsuspended																										             #
+# Use: acctsuspended															 #
 #                                                                                                                                        #
 ##########################################################################################################################################
 
@@ -40,18 +40,18 @@ then
 	echo -e ""$RED"$DOMAIN not found in DNS PULL"$DEFAULTCOLOR""
 else
 	
-	#COLLECT USER IN CPANEL
+    #COLLECT USER IN CPANEL
     COLLECTUSER=$(ssh root@$CHECKDOMAINIP -p$SSHPORT grep -w $DOMAIN /etc/trueuserdomains | awk '{print $2}')
     #COLLECT HOSTNAME
     COLLECTHOSTNAME=$(ssh root@$CHECKDOMAINIP -p$SSHPORT uname -n)
 
-	#SHOW INFORMATION TO USER
-	echo -e ""$GREEN"Show information"$DEFAULTCOLOR""
-	echo -e ""$YELLOW"Domain.:"$DEFAULTCOLOR" $DOMAIN"
-	echo -e ""$YELLOW"IP Server.:"$DEFAULTCOLOR" $CHECKDOMAINIP"
-	echo -e ""$YELLOW"HOSTNAME SERVER:"$DEFAULTCOLOR" $COLLECTHOSTNAME"
-	echo -e ""$YELLOW"User cPanel.:"$DEFAULTCOLOR" $COLLECTUSER"
+    #SHOW INFORMATION TO USER
+    echo -e ""$GREEN"Show information"$DEFAULTCOLOR""
+    echo -e ""$YELLOW"Domain.:"$DEFAULTCOLOR" $DOMAIN"
+    echo -e ""$YELLOW"IP Server.:"$DEFAULTCOLOR" $CHECKDOMAINIP"
+    echo -e ""$YELLOW"HOSTNAME SERVER:"$DEFAULTCOLOR" $COLLECTHOSTNAME"
+    echo -e ""$YELLOW"User cPanel.:"$DEFAULTCOLOR" $COLLECTUSER"
 	
-	#SUSPENSION COMMANDS WILL BE PASSED THROUGH REMOTE SSH	
-	ssh root@$CHECKDOMAINIP -p$SSHPORT $CMDSUSPEND $COLLECTUSER \"FINANCEIRO\" 1
+    #SUSPENSION COMMANDS WILL BE PASSED THROUGH REMOTE SSH	
+    ssh root@$CHECKDOMAINIP -p$SSHPORT $CMDSUSPEND $COLLECTUSER \"FINANCEIRO\" 1
 fi
