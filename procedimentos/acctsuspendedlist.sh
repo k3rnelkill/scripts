@@ -50,7 +50,7 @@ then
             echo -e ""$YELLOW"HOSTNAME SERVER:"$DEFAULTCOLOR" $COLLECTHOSTNAME"
             echo -e ""$YELLOW"User cPanel.:"$DEFAULTCOLOR" $COLLECTUSER"	
             #SUSPENSION COMMANDS WILL BE PASSED THROUGH REMOTE SSH	
-            #ssh root@$CHECKDOMAINIP -p$SSHPORT $CMDSUSPEND $COLLECTUSER \"FINANCEIRO\" 1
+            ssh root@$CHECKDOMAINIP -p$SSHPORT $CMDSUSPEND $COLLECTUSER \"FINANCEIRO\" 1
             echo -e ""$BLUE"+++++++++++++++++++++++++++++++++++++++++++++++++++++++"$DEFAULTCOLOR""
         fi
     done
