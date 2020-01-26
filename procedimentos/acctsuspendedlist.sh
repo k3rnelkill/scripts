@@ -28,13 +28,10 @@ CLUSTERNAMESERVER="CLUSTER DNS HERE"
 CMDSUSPEND="/scripts/suspendacct"
 FILESUSPENDED="/tmp/suspended.txt"
 
-#CHECK FILE EXIST
 if [ -f $FILESUSPENDED ]
 then
-    #REPLACES "," BY "\N" NEW LINES
     for DOMAIN in  $(sed -e 's/\,/\n/g' $FILESUSPENDED)
     do 
-        #VERIFY EXISTENSE TO DOMAIN
         CHECKDOMAINIP=$(dig A cpanel.$DOMAIN $CLUSTERNAMESERVER  | grep -w "cpanel.$DOMAIN" | tail -n1 | head -1 | awk '{print $5}')
         if [ -z $CHECKDOMAINIP ]
         then
@@ -53,7 +50,7 @@ then
             echo -e ""$YELLOW"HOSTNAME SERVER:"$DEFAULTCOLOR" $COLLECTHOSTNAME"
             echo -e ""$YELLOW"User cPanel.:"$DEFAULTCOLOR" $COLLECTUSER"	
             #SUSPENSION COMMANDS WILL BE PASSED THROUGH REMOTE SSH	
-            ssh root@$CHECKDOMAINIP -p$SSHPORT $CMDSUSPEND $COLLECTUSER \"FINANCEIRO\" 1
+            #ssh root@$CHECKDOMAINIP -p$SSHPORT $CMDSUSPEND $COLLECTUSER \"FINANCEIRO\" 1
             echo -e ""$BLUE"+++++++++++++++++++++++++++++++++++++++++++++++++++++++"$DEFAULTCOLOR""
         fi
     done
