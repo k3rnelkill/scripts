@@ -2,14 +2,14 @@
 
 ##########################################################################################################################################
 #                                                                                                                                        #
-# Name: acctsuspended.sh                                                                                                           	 #
+# Name: findserver.sh                                                                                                           	 #
 #                                                                                                                                        #
 # Author: Thiago Marques (thiagomarquesdums@gmail.com)                                                                                   #
 # Date: 20/01/20                                                                                                                         #
 #                                                                                                                                        #
-# Description: script finds the server and suspends it.                                                                     		 #
+# Description: script finds the server and connect.                                                                     		 #
 #                                                                                                                                        #
-# Use: acctsuspended															 #
+# Use: findserver															 #
 #                                                                                                                                        #
 ##########################################################################################################################################
 
@@ -53,6 +53,6 @@ else
     echo -e ""$GREEN"CONNECTING IN SERVER ..."$DEFAULTCOLOR""
     sleep 1
 
-    #CONNECTION IN SSH SSH SERVER	
+    #CONNECTING IN SSH SERVER	
     ssh root@$CHECKDOMAINIP -p$SSHPORT
 fi
