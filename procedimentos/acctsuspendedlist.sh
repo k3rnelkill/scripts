@@ -23,15 +23,18 @@ BLUE="\033[1;34m"
 #DEFINE SSH PORT
 SSHPORT="22022"
 #DEFINY DNS CLUSTER
-CLUSTERNAMESERVER="CLUSTER DNS HERE"
+#CLUSTERNAMESERVER="CLUSTER DNS HERE"
+CLUSTERNAMESERVER="ns4.datatop.com.br"
 #SCRIPT TO SUSPENSION
 CMDSUSPEND="/scripts/suspendacct"
 FILESUSPENDED="/tmp/suspended.txt"
 
-if [ -f $FILESUSPENDED ]
+#CHECK FILE EXIST AND NOT BLANK
+if [ -s $FILESUSPENDED ]
 then
     for DOMAIN in  $(sed -e 's/\,/\n/g' $FILESUSPENDED)
     do 
+	#VERIFY DOMAIN RESOLV DNS AND EXIST POINTER CPANEL
         CHECKDOMAINIP=$(dig A cpanel.$DOMAIN $CLUSTERNAMESERVER  | grep -w "cpanel.$DOMAIN" | tail -n1 | head -1 | awk '{print $5}')
         if [ -z $CHECKDOMAINIP ]
         then
@@ -50,12 +53,14 @@ then
             echo -e ""$YELLOW"HOSTNAME SERVER:"$DEFAULTCOLOR" $COLLECTHOSTNAME"
             echo -e ""$YELLOW"User cPanel.:"$DEFAULTCOLOR" $COLLECTUSER"	
             #SUSPENSION COMMANDS WILL BE PASSED THROUGH REMOTE SSH	
-            ssh root@$CHECKDOMAINIP -p$SSHPORT $CMDSUSPEND $COLLECTUSER \"FINANCEIRO\" 1
+            #ssh root@$CHECKDOMAINIP -p$SSHPORT $CMDSUSPEND $COLLECTUSER \"FINANCEIRO\" 1
             echo -e ""$BLUE"+++++++++++++++++++++++++++++++++++++++++++++++++++++++"$DEFAULTCOLOR""
         fi
     done
     #REMOVE FILE WITH LIST OF ACCOUNTS.
-    rm -fv $FILESUSPENDED
+    echo -e ""$RED"REMOVE FILE TEMP"$DEFAULTCOLOR""
+    #rm -fv ${FILESUSPENDED:-NOTFOUND}
 else
     echo -e ""$RED"Create a /tmp/suspended.txt file with the domains to be suspended separated by commas.."$DEFAULTCOLOR""
+    echo -e "+++++++++++++"$RED"CRIE A LISTA BIZONHO!!!"$DEFAULTCOLOR"++++++++++++++"
 fi
