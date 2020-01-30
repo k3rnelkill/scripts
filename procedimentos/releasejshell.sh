@@ -2,14 +2,14 @@
 
 ##########################################################################################################################################
 #                                                                                                                                        #
-# Name: findserver.sh                                                                                                                    #
+# Name: releasejshell.sh                                                                                                                 #
 #                                                                                                                                        #
 # Author: Thiago Marques (thiagomarquesdums@gmail.com)                                                                                   #
 # Date: 20/01/20                                                                                                                         #
 #                                                                                                                                        #
-# Description: find and show hostname e IP server.                                                                                       #
+# Description: Find user and enable jailshell.                                                                                           #
 #                                                                                                                                        #
-# Use: findserver                                                                                                                        #
+# Use: releasejailshell                                                                                                                  #
 #                                                                                                                                        #
 ##########################################################################################################################################
 
