@@ -28,7 +28,8 @@ CLUSTERNAMESERVER="CLUSTER DNS HERE"
 #SCRIPT TO SUSPENSION
 CMDSUSPEND="/scripts/suspendacct"
 #CHECKDOMAIN IN SERVER
-CHECKDOMAINIP=$(dig A cpanel.$DOMAIN $CLUSTERNAMESERVER  | grep -w "cpanel.$DOMAIN" | tail -n1 | head -1 | awk '{print $5}')
+#CHECKDOMAINIP=$(dig A cpanel.$DOMAIN $CLUSTERNAMESERVER  | grep -w "cpanel.$DOMAIN" | tail -n1 | head -1 | awk '{print $5}')
+CHECKDOMAINIP=$(dig A +noadditional +noquestion +nocomments +nocmd +nostats cpanel.$DOMAIN. @"$CLUSTERNAMESERVER" | awk '{print $5}')
 
 #TEST VARIABLE
 #echo $DOMAIN
