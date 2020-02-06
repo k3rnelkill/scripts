@@ -28,7 +28,8 @@ read -p "Enter the domain.: " DOMAIN
 #VARIABLE USED TO STORE CPANEL DNS CLUSTER
 CLUSTERNAMESERVER="CLUSTER DNS SERVER HERE"
 #CHECKDOMAIN IN SERVER
-CHECKDOMAINIP=$(dig A cpanel.$DOMAIN $CLUSTERNAMESERVER  | grep -w "cpanel.$DOMAIN" | tail -n1 | head -1 | awk '{print $5}')
+#CHECKDOMAINIP=$(dig A cpanel.$DOMAIN $CLUSTERNAMESERVER  | grep -w "cpanel.$DOMAIN" | tail -n1 | head -1 | awk '{print $5}')
+CHECKDOMAINIP=$(dig A +noadditional +noquestion +nocomments +nocmd +nostats cpanel.$DOMAIN. @"$CLUSTERNAMESERVER" | awk '{print $5}')
 
 #IF VARIABLE $CHECKDOMAINIP IS NULL, DOMAIN is not found. IN CASE OF NON-NULL VARIABLE. ELSE DEIPT THIS SUSPENSION WILL BE EXECUTED...
 if [ -z $CHECKDOMAINIP ]
