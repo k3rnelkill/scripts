@@ -18,11 +18,13 @@ LANG=$LANGBKP
 #whmapi1 showbw searchtype=user search=alugue79
 for i in $(cat /tmp/high_processcount.txt | awk '{print $2}')
 do
+        ec "$i" -e | grep "User sent approximately" > /tmp/email_send.txt
         echo "Usuário: $i"
         #echo "Picos de processos: $(cat /tmp/high_processcount.txt | awk '{print $1}')"
         echo "Número de contas de E-mail.: $(uapi --user=$i Email list_pops | grep email | wc -l)"
         echo "Número de Picos de processos: $(cat /tmp/high_processcount.txt | grep $i | awk '{print $1}')"
         echo "Banda em Bytes: $(whmapi1 showbw searchtype=user search=$i | grep "totalbytes:" | sed "s/'//g" | awk '{print $2}')"
+        echo "Qtd de e-mails enviados: $(cat /tmp/email_send.txt | awk '{print $4}')"
         echo "+++++++++++++++++++++++++++++++++++++++++"
 done
 
