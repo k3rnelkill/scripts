@@ -26,15 +26,27 @@ SSHPORT="22022"
 #VARIABLE USED TO STORE DOMAIN
 read -p "Enter the domain.: " DOMAIN
 #VARIABLE USED TO STORE CPANEL DNS CLUSTER
-CLUSTERNAMESERVER="CLUSTER DNS SERVER HERE"
+CLUSTERNAMESERVER="ns4.datatop.com.br"
 #CHECKDOMAIN IN SERVER
-CHECKDOMAINIP=$(dig A cpanel.$DOMAIN $CLUSTERNAMESERVER  | grep -w "cpanel.$DOMAIN" | tail -n1 | head -1 | awk '{print $5}')
+CHECKDOMAINIP=$(dig A cpanel.$DOMAIN $CLUSTERNAMESERVER  | grep -w cpanel.${DOMAIN} | tail -n1 | head -1 | awk '{print $5}')
+CHECKDOMAINIP2=$(dig A +noadditional +noquestion +nocomments +nocmd +nostats cpanel.${DOMAIN})
 
 #IF VARIABLE $CHECKDOMAINIP IS NULL, DOMAIN is not found. IN CASE OF NON-NULL VARIABLE. ELSE DEIPT THIS SUSPENSION WILL BE EXECUTED...
 if [ -z $CHECKDOMAINIP ]
 then
-        echo -e ""$RED"Variable is empty - $DOMAIN not found"$DEFAULTCOLOR""
-        echo -e ""$RED"$DOMAIN not found in DNS PULL"$DEFAULTCOLOR""
+	if [ -z $CHECKDOMAINIP2 ]
+	then
+            echo -e ""$RED"Variable is empty - $DOMAIN not found"$DEFAULTCOLOR""
+            echo -e ""$RED"$DOMAIN not found in DNS PULL"$DEFAULTCOLOR""
+	    else
+	    	#COLLECT HOSTNAME
+    	    	COLLECTHOSTNAME=$(ssh root@$CHECKDOMAINIP -p$SSHPORT uname -n)
+
+            	#SHOW INFORMATION TO USER
+            	echo -e ""$GREEN"Show information"$DEFAULTCOLOR""
+            	echo -e ""$YELLOW"IP Server.:"$DEFAULTCOLOR" $CHECKDOMAINIP"
+            	echo -e ""$YELLOW"HOSTNAME SERVER:"$DEFAULTCOLOR" $COLLECTHOSTNAME"
+	fi
 else
 
     #COLLECT HOSTNAME
