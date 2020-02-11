@@ -10,7 +10,7 @@ echo $DAYNOW
 echo $YEARNOW
 echo $LANG
 
-grep -w -i "$DAYNOW" $FILELOGPROCESSAMENT | grep "$YEARNOW" | awk '{print $8}' | sed 's/(\|)//g' | sort | uniq -c | sort -nr | tee /tmp/high_processcount.txt
+grep -w -i "$DAYNOW" $FILELOGPROCESSAMENT | grep "$YEARNOW" | grep "danger" | awk '{print $8}' | sed 's/(\|)//g' | sort | uniq -c | sort -nr | tee /tmp/high_processcount.txt
 
 echo "+++++++++++++++++++++++++++++++++++++++++"
 
