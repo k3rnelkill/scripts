@@ -7,7 +7,7 @@
 # Author: Thiago Marques (thiagomarquesdums@gmail.com)                                                                                   #
 # Date: 20/01/20                                                                                                                         #
 #                                                                                                                                        #
-# Description: find and show hostname e IP server.                                                                                       #
+# Description: script finds the server and connect.                                                                                      #
 #                                                                                                                                        #
 # Use: findserver                                                                                                                        #
 #                                                                                                                                        #
@@ -28,32 +28,22 @@ read -p "Enter the domain.: " DOMAIN
 #VARIABLE USED TO STORE CPANEL DNS CLUSTER
 CLUSTERNAMESERVER="ns4.datatop.com.br"
 #CHECKDOMAIN IN SERVER
+#CHECKDOMAINIP=$(dig A cpanel.$DOMAIN $CLUSTERNAMESERVER  | grep -w "cpanel.$DOMAIN" | tail -n1 | head -1 | awk '{print $5}')
 CHECKDOMAINIP=$(dig A +noadditional +noquestion +nocomments +nocmd +nostats cpanel.$DOMAIN. @"$CLUSTERNAMESERVER" | awk '{print $5}')
-CHECKDOMAINIP2=$(dig A +noadditional +noquestion +nocomments +nocmd +nostats cpanel.${DOMAIN})
+CHECKDOMAINIPEXTERNAL=$(dig A +noadditional +noquestion +nocomments +nocmd +nostats cpanel.$DOMAIN. | awk '{print $5}')
 
 #IF VARIABLE $CHECKDOMAINIP IS NULL, DOMAIN is not found. IN CASE OF NON-NULL VARIABLE. ELSE DEIPT THIS SUSPENSION WILL BE EXECUTED...
 if [ -z $CHECKDOMAINIP ]
 then
-	if [ -z $CHECKDOMAINIP2 ]
-	then
-            echo -e ""$RED"Variable is empty - $DOMAIN not found"$DEFAULTCOLOR""
-            echo -e ""$RED"$DOMAIN not found in DNS PULL"$DEFAULTCOLOR""
-	    else
-	    	#COLLECT HOSTNAME
-    	    	COLLECTHOSTNAME=$(ssh root@$CHECKDOMAINIP -p$SSHPORT uname -n)
-
-            	#SHOW INFORMATION TO USER
-            	echo -e ""$GREEN"Show information"$DEFAULTCOLOR""
-            	echo -e ""$YELLOW"IP Server.:"$DEFAULTCOLOR" $CHECKDOMAINIP"
-            	echo -e ""$YELLOW"HOSTNAME SERVER:"$DEFAULTCOLOR" $COLLECTHOSTNAME"
-	fi
+        echo -e ""$RED"Variable is empty - $DOMAIN not found"$DEFAULTCOLOR""
+        echo -e ""$RED"$DOMAIN not found in DNS PULL"$DEFAULTCOLOR""
 else
 
-    #COLLECT HOSTNAME
     COLLECTHOSTNAME=$(ssh root@$CHECKDOMAINIP -p$SSHPORT uname -n)
 
     #SHOW INFORMATION TO USER
     echo -e ""$GREEN"Show information"$DEFAULTCOLOR""
+    #echo -e ""$YELLOW"Domain.:"$DEFAULTCOLOR" $DOMAIN"
     echo -e ""$YELLOW"IP Server.:"$DEFAULTCOLOR" $CHECKDOMAINIP"
     echo -e ""$YELLOW"HOSTNAME SERVER:"$DEFAULTCOLOR" $COLLECTHOSTNAME"
 
