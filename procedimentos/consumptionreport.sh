@@ -1,7 +1,5 @@
 #!/bin/bash
 
-LC_ALL=C
-
 #DEFINES COLORS
 DEFAULTCOLOR="\033[0m"
 GREEN="\033[1;32m"
@@ -30,7 +28,8 @@ for i in $(cat /tmp/high_processcount.txt | awk '{print $2}')
 do
         DOMAIN=$(grep -w $i /etc/trueuserdomains | awk -F\: '{print $1}')
        
-        SENDERCOUNTER=$(/bin/ls -l /var/cpanel/email_send_limits/track/${DOMAIN}/ | grep ${DAYNOW}| awk '{print $5}' | egrep -v '(4096|36864)' | sed '/^$/d' > ${TMPFILE})
+        #SENDERCOUNTER=$(/bin/ls -l /var/cpanel/email_send_limits/track/${DOMAIN}/ | grep ${DAYNOW}| awk '{print $5}' | egrep -v '(4096|36864)' | sed '/^$/d' > ${TMPFILE})
+        SENDERCOUNTER=$(/bin/ls -l /var/cpanel/email_send_limits/track/${DOMAIN}/ | grep $(perl -e 'print join( ".", ( gmtime(time()) )[ 3, 4, 5 ] ) ') | awk '{print $5}' > ${TMPFILE} )
         : '
            INFORMATION ABOUNT VARIABLE COUNTER AND PASTE|BC COMMAND
            -d, --delimiters=LISTA  reutiliza caracteres da LISTA em vez de tabulações
