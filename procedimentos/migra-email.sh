@@ -3,15 +3,15 @@
 
 #################################################################################################################################
 #                                                                                                                               #
-# Nome: migra-email.sh		                                                                                                #
+# Nome: migra-email.sh		                                                                                                    #
 #                                                                                                                               #
 # Autor: Thiago Marques (thiagomarquesdums@gmail.com)                                                                           #
 # Data: 03/03/19                                                                                                                #
 #                                                                                                                               #
-# Descrição: Faz a leitura do csv dos dados das contas e sincroniza elas através do imapsync			                #
-#								                                                                #
-# Planilha deve conta na 1ª servidor de origem, 2ª Email, 3ª senha origem, 4 Servidor de destino, 5ª senha destino		#
-# Homologado:				                                                                                        #
+# Descrição: Faz a leitura do csv dos dados das contas e sincroniza elas através do imapsync			                        #
+#								                                                                                                #
+# Planilha deve conta na 1ª servidor de origem, 2ª Email, 3ª senha origem, 4 Servidor de destino, 5ª senha destino		        #
+# Homologado:				                                                                                                    #
 # Modelo: https://docs.google.com/spreadsheets/d/1bQdPS2Q-LOy0G-zvpHgABQ8rClYhUk40ZGOursIL5vg/edit?usp=sharing                  #
 #                                                                                                                               #
 # USO: ./migra-email.sh                                                                                                         #
@@ -19,7 +19,6 @@
 #################################################################################################################################
 
 DATAHORA=`date "+%d-%m-%Y %H:%M:%S"`
-LOG="/var/log/migra-email.log"
 
 
 #read -p "Informe o host de origem: " SRVORIGEM
@@ -57,13 +56,12 @@ do
 	#echo ${#SENHA2}
 
 
-	echo ""
-	echo -e ""$vermelho"Iniciando a sincronia da conta $CONTA as $DATAHORA"$corPadrao""
+	echo -e ""$vermelho"\nIniciando a sincronia da conta $CONTA as $DATAHORA"$corPadrao""
 
-	imapsync --host1 "$SRVORIGEM" --user1 "$CONTA"  --password1 $SENHA1 --host2 "$SRVDESTINO" --user2 "$CONTA" --password2 $SENHA2
+	#imapsync --host1 "$SRVORIGEM" --user1 "$CONTA"  --password1 $SENHA1 --host2 "$SRVDESTINO" --user2 "$CONTA" --password2 $SENHA2
+	imapsync --host1 "$SRVORIGEM" --port1 993 --user1 "$CONTA" LOGIN --ssl1 --password1 $SENHA1 --host2 "$SRVDESTINO" --port2 993 --user2 "$CONTA" LOGIN --ssl2 --password2 $SENHA2
 
-	echo ""
-	echo -e ""$vermelho"Finalizando a sincronia da conta $CONTA as $DATAHORA"$corPadrao""
+	echo -e ""$vermelho"\nFinalizando a sincronia da conta $CONTA as $DATAHORA"$corPadrao""
 done
 
 echo -e "\n"$vermelho"Sincronia de e-mails finalizada as $DATAHORA"$corPadrao""
