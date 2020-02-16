@@ -13,6 +13,7 @@ DAYNOW=$(/bin/date "+%b %d")
 YEARNOW=$(/bin/date "+%Y")
 FILEDOMAIN="/etc/trueuserdomains"
 TMPFILE="/tmp/sumsend.tmp"
+DIRQTDMAIL="/var/cpanel/email_send_limits/track/"
 
 echo $DAYNOW
 echo $YEARNOW
@@ -29,10 +30,16 @@ LANG=$LANGBKP
 for i in $(cat /tmp/high_processcount.txt | awk '{print $2}')
 do      
         #COLLET DOMAIN
-        DOMAIN=$(grep -w $i /etc/trueuserdomains | awk -F\: '{print $1}')
+        DOMAIN=$(grep -w $i ${FILEDOMAIN} | awk -F\: '{print $1}')
        
        #COLLECT THE AMOUNT OF EMAILS SENT PER HOUR.
-        SENDERCOUNTER=$(/bin/ls -l /var/cpanel/email_send_limits/track/${DOMAIN}/ | grep $(perl -e 'print join( ".", ( gmtime(time()) )[ 3, 4, 5 ] ) ') | awk '{print $5}' > ${TMPFILE} )
+        if [ -d ${DIRQTDMAIL}${DOMAIN}/ ]
+        then
+                SENDERCOUNTER=$(/bin/ls -l ${DIRQTDMAIL}${DOMAIN}/ | grep $(perl -e 'print join( ".", ( gmtime(time()) )[ 3, 4, 5 ] ) ') | awk '{print $5}' > ${TMPFILE} )
+        else
+                echo "0" > ${TMPFILE}
+        fi
+
         : '
            INFORMATION ABOUNT VARIABLE COUNTER AND PASTE|BC COMMAND
            -d, --delimiters=LISTA  reutiliza caracteres da LISTA em vez de tabulações
