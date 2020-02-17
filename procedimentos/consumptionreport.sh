@@ -15,7 +15,7 @@ FILEDOMAIN="/etc/trueuserdomains"
 TMPFILE="/tmp/sumsend.tmp"
 DIRQTDMAIL="/var/cpanel/email_send_limits/track/"
 
-:'
+: '
 echo $DAYNOW
 echo $YEARNOW
 echo $LANG
