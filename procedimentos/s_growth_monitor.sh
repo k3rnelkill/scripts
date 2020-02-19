@@ -62,7 +62,7 @@ do
         COUNTER=$(paste -sd+ ${TMPFILE} | bc)
 
         #CONTA A QUANTIDADE DE DOMÍNIOS E SUBDOMÌNIOS EXISTENTES POR USUÁRIO
-        ADOMAIN=$(cat /etc/userdomains | grep ${i} | wc -l)
+        ADOMAIN=$(cat /etc/userdomains | grep -w ${i} | wc -l)
         
         #EXIBE USUÁRIO
         echo -e "${GREEN}Usuário:${DEFAULTCOLOR} ${i}"
