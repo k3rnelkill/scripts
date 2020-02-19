@@ -31,7 +31,7 @@ rm -f ${DATATMPFILE}
 #BUSCA USUÁRIOS DETECTADOS COM ALTO CONSUMO DE PROCESSAMENTO.
 grep -w -i "$DAYNOW" $FILELOGPROCESSAMENT | grep "$YEARNOW" | awk '{print $8}' | sed 's/(\|)//g' | sort | uniq -c | sort -nr > ${TMPFILEPROCESS}
 
-echo "${YELLOW}+++++++++++++++++++++++++++++++++++++++++${DEFAULTCOLOR}"
+echo -e "${YELLOW}+++++++++++++++++++++++++++++++++++++++++${DEFAULTCOLOR}"
 
 #RESTAURA O IDIOMA PADRÃO DO SISTEMA
 LANG=$LANGBKP
