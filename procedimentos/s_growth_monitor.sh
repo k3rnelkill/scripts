@@ -85,6 +85,6 @@ do
         #EXIBE O TOTAL DE BANDA UTILIZADO POR TODOS AS DOMÍNIOS DO USUÁRIO CPANEL
         echo -e "${GREEN}Banda total em Bytes:${DEFAULTCOLOR} $(whmapi1 showbw searchtype=user search=${i} | grep "totalbytes:" | sed "s/'//g" | awk '{print $2}')"
         
-        echo "${CHECKHOSTNAME},${i},${DOMAIN},$(uapi --user=${i} Email list_pops | grep email | wc -l),${COUNTER},$(cat /tmp/high_processcount.txt | grep ${i} | awk '{print $1}'),$(whmapi1 showbw searchtype=user search=${i} | grep "totalbytes:" | sed "s/'//g" | awk '{print $2}')" >>  ${DATATMPFILE}
+        echo "${CHECKHOSTNAME},${i},${DOMAIN},${ADOMAIN},$(uapi --user=${i} Email list_pops | grep email | wc -l),${COUNTER},$(cat /tmp/high_processcount.txt | grep ${i} | awk '{print $1}'),$(whmapi1 showbw searchtype=user search=${i} | grep "totalbytes:" | sed "s/'//g" | awk '{print $2}')" >>  ${DATATMPFILE}
         echo -e "${YELLOW}+++++++++++++++++++++++++++++++++++++++++${DEFAULTCOLOR}"
 done
