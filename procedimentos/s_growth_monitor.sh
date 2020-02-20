@@ -16,6 +16,7 @@ TMPFILE="/tmp/sumsend.tmp"
 DATATMPFILE="/tmp/datauser.tmp"
 TMPFILEPROCESS="/tmp/high_processcount.txt"
 DIRQTDMAIL="/var/cpanel/email_send_limits/track/"
+CHECKFILEMAIL="/tmp/checkfilemailexist.tmp"
 CHECKHOSTNAME=$(uname -n)
 
 : '
@@ -41,10 +42,13 @@ for i in $(cat /tmp/high_processcount.txt | awk '{print $2}')
 do      
         #COLLETA DOMINIO PRINCIPAL DO USUÁRIO
         DOMAIN=$(grep -w $i ${FILEDOMAIN} | awk -F\: '{print $1}')
+        
+        #VERIFICA SE EXISTE ARQUIVOS COM DADOS DE EMAIL ENVIADOS NO DIA.
+        ls /var/cpanel/email_send_limits/track/${DOMAIN}/ | grep `perl -e 'print join( ".", ( gmtime(time()) )[ 3, 4, 5 ] ) '` > ${CHECKFILEMAIL}
        
-        #CASO O DIRETÓRIO NÃO EXISTA, SIGNIFICA QUE NÃO HOUVE ENVIO DE E-MAIL, VALIDAÇÃO EVITA ERROS EXIBIDOS NO TERMINAL
-        if [ -d ${DIRQTDMAIL}${DOMAIN}/ ]
-        then
+        #CASO O DIRETÓRIO OU ARQUIVO NÃO EXISTA, SIGNIFICA QUE NÃO HOUVE ENVIO DE E-MAIL, VALIDAÇÃO EVITA ERROS EXIBIDOS NO TERMINAL
+        if [ -d ${DIRQTDMAIL}${DOMAIN}/ && -s ${CHECKFILEMAIL} ]
+        then    
                 #COLETA A QUANTIDADE DE EMAIL ENVIADOS POR DIA. AO CONTRARIO DO /ROOT/BIN/EC, ESTE PODE SER EXECUTADO EM 2seg SEM ELEVADOR O OIPS.
                 SENDERCOUNTER=$(/bin/ls -l ${DIRQTDMAIL}${DOMAIN}/ | grep $(perl -e 'print join( ".", ( gmtime(time()) )[ 3, 4, 5 ] ) ') | awk '{print $5}' > ${TMPFILE} )
         else
@@ -83,8 +87,8 @@ do
         echo -e "${RED}Número de Picos de processos:${DEFAULTCOLOR} $(cat /tmp/high_processcount.txt | grep ${i} | awk '{print $1}')"
 
         #EXIBE O TOTAL DE BANDA UTILIZADO POR TODOS AS DOMÍNIOS DO USUÁRIO CPANEL
-        echo -e "${GREEN}Banda total em Bytes:${DEFAULTCOLOR} $(whmapi1 showbw searchtype=user search=${i} | grep "totalbytes:" | sed "s/'//g" | awk '{print $2}')"
+        echo -e "${GREEN}Banda total em Bytes:${DEFAULTCOLOR} $(whmapi1 showbw searchtype=user search=${i} | grep -w "totalbytes:" | sed "s/'//g" | awk '{print $2}')"
         
-        echo "${CHECKHOSTNAME},${i},${DOMAIN},${ADOMAIN},$(uapi --user=${i} Email list_pops | grep email | wc -l),${COUNTER},$(cat /tmp/high_processcount.txt | grep ${i} | awk '{print $1}'),$(whmapi1 showbw searchtype=user search=${i} | grep "totalbytes:" | sed "s/'//g" | awk '{print $2}')" >>  ${DATATMPFILE}
+        echo "${CHECKHOSTNAME},${i},${DOMAIN},${ADOMAIN},$(uapi --user=${i} Email list_pops | grep email | wc -l),${COUNTER},$(cat /tmp/high_processcount.txt | grep ${i} | awk '{print $1}'),$(whmapi1 showbw searchtype=user search=${i} | grep -w "totalbytes:" | sed "s/'//g" | awk '{print $2}')" >>  ${DATATMPFILE}
         echo -e "${YELLOW}+++++++++++++++++++++++++++++++++++++++++${DEFAULTCOLOR}"
 done
