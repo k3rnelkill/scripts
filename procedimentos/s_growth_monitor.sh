@@ -42,7 +42,7 @@ for i in $(cat /tmp/high_processcount.txt | awk '{print $2}')
 do      
         #COLLETA DOMINIO PRINCIPAL DO USUÁRIO
         DOMAIN=$(grep -w $i ${FILEDOMAIN} | awk -F\: '{print $1}')
-        
+
         #VERIFICA SE EXISTE ARQUIVOS COM DADOS DE EMAIL ENVIADOS NO DIA.
         ls /var/cpanel/email_send_limits/track/${DOMAIN}/ | grep `perl -e 'print join( ".", ( gmtime(time()) )[ 3, 4, 5 ] ) '` > ${CHECKFILEMAIL}
        
@@ -92,3 +92,5 @@ do
         echo "${CHECKHOSTNAME},${i},${DOMAIN},${ADOMAIN},$(uapi --user=${i} Email list_pops | grep email | wc -l),${COUNTER},$(cat /tmp/high_processcount.txt | grep ${i} | awk '{print $1}'),$(whmapi1 showbw searchtype=user search=${i} | grep -w "totalbytes:" | sed "s/'//g" | awk '{print $2}')" >>  ${DATATMPFILE}
         echo -e "${YELLOW}+++++++++++++++++++++++++++++++++++++++++${DEFAULTCOLOR}"
 done
+
+cat ${DATATMPFILE}
