@@ -42,15 +42,20 @@ for i in $(cat /tmp/high_processcount.txt | awk '{print $2}')
 do      
         #COLLETA DOMINIO PRINCIPAL DO USUÁRIO
         DOMAIN=$(grep -w $i ${FILEDOMAIN} | awk -F\: '{print $1}')
-
-        #VERIFICA SE EXISTE ARQUIVOS COM DADOS DE EMAIL ENVIADOS NO DIA.
-        ls /var/cpanel/email_send_limits/track/${DOMAIN}/ | grep `perl -e 'print join( ".", ( gmtime(time()) )[ 3, 4, 5 ] ) '` > ${CHECKFILEMAIL}
-       
+    
         #CASO O DIRETÓRIO OU ARQUIVO NÃO EXISTA, SIGNIFICA QUE NÃO HOUVE ENVIO DE E-MAIL, VALIDAÇÃO EVITA ERROS EXIBIDOS NO TERMINAL
-        if [ -d ${DIRQTDMAIL}${DOMAIN}/ && -s ${CHECKFILEMAIL} ]
+        if [ -d ${DIRQTDMAIL}${DOMAIN}/ ] 
         then    
-                #COLETA A QUANTIDADE DE EMAIL ENVIADOS POR DIA. AO CONTRARIO DO /ROOT/BIN/EC, ESTE PODE SER EXECUTADO EM 2seg SEM ELEVADOR O OIPS.
-                SENDERCOUNTER=$(/bin/ls -l ${DIRQTDMAIL}${DOMAIN}/ | grep $(perl -e 'print join( ".", ( gmtime(time()) )[ 3, 4, 5 ] ) ') | awk '{print $5}' > ${TMPFILE} )
+                #VERIFICA SE EXISTE ARQUIVOS COM DADOS DE EMAIL ENVIADOS NO DIA.
+                ls ${DIRQTDMAIL}${DOMAIN}/ | grep $(perl -e 'print join( ".", ( gmtime(time()) )[ 3, 4, 5 ] ) ') > /dev/null 2>&1
+                if [  `echo $?` -eq "0" ] 
+                then 
+                        #COLETA A QUANTIDADE DE EMAIL ENVIADOS POR DIA. AO CONTRARIO DO /ROOT/BIN/EC, ESTE PODE SER EXECUTADO EM 2seg SEM ELEVADOR O OIPS.
+                        SENDERCOUNTER=$(/bin/ls -l ${DIRQTDMAIL}${DOMAIN}/ | grep $(perl -e 'print join( ".", ( gmtime(time()) )[ 3, 4, 5 ] ) ') | awk '{print $5}' > ${TMPFILE} )
+                else
+                        echo "0" > ${TMPFILE}
+                fi   
+
         else
                 echo "0" > ${TMPFILE}
         fi
