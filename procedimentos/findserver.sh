@@ -26,7 +26,7 @@ SSHPORT="22022"
 #VARIABLE USED TO STORE DOMAIN
 read -p "Enter the domain.: " DOMAIN
 #VARIABLE USED TO STORE CPANEL DNS CLUSTER
-CLUSTERNAMESERVER="ns4.datatop.com.br"
+CLUSTERNAMESERVER="CLUSTER DNS HERE"
 #CHECKDOMAIN IN SERVER
 #CHECKDOMAINIP=$(dig A cpanel.$DOMAIN $CLUSTERNAMESERVER  | grep -w "cpanel.$DOMAIN" | tail -n1 | head -1 | awk '{print $5}')
 CHECKDOMAINIP=$(dig A +noadditional +noquestion +nocomments +nocmd +nostats cpanel.$DOMAIN. @"$CLUSTERNAMESERVER" | awk '{print $5}')
