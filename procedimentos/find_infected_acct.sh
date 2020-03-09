@@ -6,10 +6,10 @@ LISTUSERS="/tmp/list_user.tmp"
 RELATSCAN="/tmp/relatorio_scan.txt"
 
 #REMOVENDO ARQUIVOS TEMPORARIOS CASO EXISTA
-[ -f ${LISTUSER} ] && rm -f ${LISTUSERS:-VAZIO}
+[ -f ${LISTUSERS} ] && rm -f ${LISTUSERS:-VAZIO}
 
 #BUSCA ARQUIVOS MALICIOSOS SOMENTE NA INDEX
-grep "\@include" /home/*/public_html/index.php | grep "\x" | awk -F\/ '{print $3}' | uniq > ${LISTUSER} ; cat ${LISTUSER}
+grep "\@include" /home/*/public_html/index.php | grep "\x" | awk -F\/ '{print $3}' | uniq > ${LISTUSERS} ; cat ${LISTUSERS}
 
 sleep 5
 
