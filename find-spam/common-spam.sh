@@ -53,14 +53,14 @@ cat ${TMPSPAMMER} | sort | uniq > ${POSSIBLESPAMMER}
 for x in $(cat ${POSSIBLESPAMME})
 do
         grep $x /etc/userdomains
-        if [ `echo $?` -eq 0 ]
+	if [ $(echo $?) -eq 0 ]
         then
                 echo $x >> ${DOMAINSPAMMER}
         fi
 done
 
 #CREATE VARIABLE SPAMMER TO ZABBIX
-if [ `cat ${DOMAINSPAMMER} | wc -l` -gt 1 ]
+if [ $(cat ${DOMAINSPAMMER} | wc -l) -gt 1 ]
 then
         echo 1 > {$SPAMMER}
 else
