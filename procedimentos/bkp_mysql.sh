@@ -1,80 +1,48 @@
-#!/bin/bash
+#!/usr/bin/env bash
 ################################################################## 
 ## Nome: bkp-mysql.sh                                            #
 #                                                                #
 # Autor: Thiago Marques (thiagomarquesdums@gmail.com)            #
-# Data: 10/01/19                                                 #
+# Data: 07/10/21                                                 #
 #                                                                #
 # Descrição: Faz um backup de todos os bancos e compacta         #
 #                                                                #
-# USO: ./bkp-mysql.sh                                            #
+# USO: /root/scripts/bkp-mysql.sh                                #
 #                                                                #
 ##################################################################
-SERVER=`hostname`
-DIR="/root/bancobkp/"
+
+CMD_TAR=$(which tar)
+CMD_DATE=$(which date)
+CMD_MKDIR=$(which mkdir)
+
+DIR="/dbBackup/"
 LOG="/var/log/bkp_mysql.log"
-DATA=`date +%Y-%m-%d_%H-%M-%S`
-DATAHORA=`date "+%d-%m-%Y %H:%M:%S"`
-ARQUIVO="backup_$(date +%Y-%m-%d_%H-%M-%S).tar.gz"
+DATA=`${CMD_DATE} "+%Y-%m-%d"`
+DATAHORA=`${CMD_DATE} "+%d-%m-%Y %H:%M:%S"`
+ARQUIVO="backup_`${CMD_DATE} +%Y-%m-%d`.tar.gz"
 
 #ALTERAR DADOS DE ACESSO DO BANCO
-USUARIO=""
+USUARIO="root"
 SENHA=""
 
+[ ! -e ${CMD_TAR} ] && echo "O comando informado não existe" && exit 1
+[ ! -e ${CMD_DATE} ] && echo "O comando informado não existe" && exit 1
+[ ! -e ${CMD_MKDIR} ] && echo "O comando informado não existe" && exit 1
+[ ! -d ${DIR} ] && echo "Diretorio informado não existe" && mkdir -pv ${DIR}
+
 #FUNCAO QUE FARA O BKP DB MYSQL
-COMANDO=`for I in $(mysql -u $USUARIO -p$SENHA -e 'show databases' -s --skip-column-names | egrep -v  'information_schema|performance_schema|mysql'); do mysqldump --routines -u$USUARIO -p$SENHA $I > $DIR$I"_"$DATA".sql"; done`
-
-#Faz Reparação de tabelas corrompidas.
-REPARA="mysqlcheck -A --auto-repair -u $USUARIO -p$SENHA"
-
-#Inicia serviço
-REINICIA="service mysql restart"
-
-#Lista arquivos que serão removidos
-LISTA=`find $DIR* -type f -mtime +30 -exec ls -lash '{}' \;`
-
-#Apagando Backups antigos da pasta
-REMOVE=`find $DIR* -type f -mtime +30 -exec rm -fv '{}' \;`
+COMANDO=`for I in $(mysql -u $USUARIO -p$SENHA -e 'show databases' -s --skip-column-names | egrep -v  'information_schema|system|performance_schema|mysql'); do mysqldump --routines -u$USUARIO -p$SENHA $I > $DIR$I"_"$DATA".sql"; done`
 
 #INICIO
 echo -e "\nIniciando Backup em $DATAHORA" >> $LOG
 
-#Verifica se diretorio existe, caso contrario cria-o.
-if [ ! -d $DIR ]
-then
-            echo "Criando o diretório $DIR ..." >> $LOG
-            mkdir -p $DIR
-fi
+echo -e "\nIniciando dump das databases $DATAHORA" >> $LOG
+${COMANDO};
 
-echo -e "\nReparando tabelas que possam estar corrompidas $DATAHORA" >> $LOG
-$REPARA
-
-echo -e "\nReiniciando mysql $DATAHORA" >> $LOG
-$REINICIA
-
-echo -e "\nInciando dump das databases $DATAHORA" >> $LOG
-$COMANDO;
-
-echo "###########################################################################"
-echo "Removendo backup com +dias" >> $LOG
-$LISTA >> $LOG
-echo "###########################################################################"
-$REMOVE
-
-#Compactando arquivos e removendo os arquivos backpeados
+#COMPACTANDO BACKUP E REMOVENDO .SQL
 echo -e "\nCompactando Backup ..." >> $LOG
-tar zcvpf $DIR/$ARQUIVO --absolute-names --exclude="*tar.gz" --remove-files "$DIR"*
+${CMD_TAR} zcvpf $DIR/$ARQUIVO --absolute-names --exclude="*tar.gz" --remove-files "$DIR"*
 echo ""
 echo -e "\nO backup de nome "$DIR$ARQUIVO" foi criado em $DIR" >> $LOG
 echo ""
 echo -e "\nBackup Concluído "$DATAHORA"!" >> $LOG
-
-#Sincronizando s3
-echo -e "\nSincronizando na s3 $DATAHORA" >> $LOG
-
-echo -e "\nSincrozanizando MySQL $DATAHORA"
-sleep 2
-/usr/local/bin/s3cmd sync -p /root/bancobkp s3://**********************/
-echo -e "\nFinalizado sincronia do banco $DATAHORA" >> $LOG
-
-echo -e "\nFinalizado sincronia dos arquivos $DATAHORA" >> $LOG
