@@ -6,7 +6,8 @@
 IFSback=$IFS
 IFS=$'\n'
 
-DATA="$(date +%b' '%d)"
+#DATA="$(date +%b' '%d)"
+#DATA="Mar 30"
 LOG="/var/log/messages"
 CMD_CAT=$(which cat)
 CMD_GREP=$(which grep)
@@ -22,14 +23,14 @@ CONF_ZABBIX_AGENT2="/etc/zabbix/zabbix_agent2.conf"
 [ -z ${CMD_TAIL} ] && echo "The ps command does not exist" && exit 1
 [ -z ${CMD_ZABBIX_SENDER} ] && echo "The zabbix_sender command does not exist" && exit 1
 
-KERNELPANICLOG=$(${CMD_TAIL} -n50 ${LOG} | ${CMD_GREP} call | ${CMD_GREP} ${DATA})
+KERNELPANICLOG=$(${CMD_TAIL} -n1000 ${LOG} | ${CMD_EGREP} "system_call")
 
-${KERNELPANICLOG} >/dev/null 2>&1
+${KERNELPANICLOG} 
 
 if [ $(echo $?) -eq 0 ]
 then
         echo "0 - acho alerta de kernel"
-        ${CMD_ZABBIX_SENDER} -c ${CONF_ZABBIX_AGENT2} -s ${HOSTNAME} -k check.kernelpanic -o 0
+        ${CMD_ZABBIX_SENDER} -c ${CONF_ZABBIX_AGENT2} -s ${HOSTNAME} -k check.kernelpanic -o 0 
 else
         echo "1 - nao acho"
         ${CMD_ZABBIX_SENDER} -c ${CONF_ZABBIX_AGENT2} -s ${HOSTNAME} -k check.kernelpanic -o 1
